@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,16 +17,13 @@
   --muted: #9aa99d;
   --line: #303b33;
 }
-
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: system-ui, sans-serif;
   padding-bottom: 30px;
 }
 
@@ -35,22 +33,9 @@ header {
   border-radius: 0 0 24px 24px;
 }
 
-.brand {
-  font-size: 25px;
-  font-weight: 850;
-}
-
-.sub {
-  color: #d8f3df;
-  font-size: 13px;
-  margin-top: 5px;
-}
-
-main {
-  max-width: 680px;
-  margin: auto;
-  padding: 16px;
-}
+.brand { font-size: 25px; font-weight: 850; }
+.sub { color: #d8f3df; font-size: 13px; margin-top: 5px; }
+main { max-width: 680px; margin: auto; padding: 16px; }
 
 .stats {
   display: grid;
@@ -59,39 +44,20 @@ main {
   margin-bottom: 15px;
 }
 
-.stat {
+.stat, .product, .checkrow {
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: 15px;
-  padding: 14px;
+  padding: 13px;
 }
 
-.stat span {
-  color: var(--muted);
-  font-size: 12px;
-}
+.stat span { color: var(--muted); font-size: 12px; }
+.stat strong { display: block; font-size: 25px; }
 
-.stat strong {
-  display: block;
-  font-size: 25px;
-  margin-top: 3px;
-}
+button, input { font: inherit; }
+button { cursor: pointer; }
 
-button,
-input {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.actions {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 14px;
-}
+.actions { display: flex; gap: 8px; margin-bottom: 14px; }
 
 .btn {
   border: 0;
@@ -100,28 +66,12 @@ button {
   font-weight: 750;
 }
 
-.primary {
-  background: var(--green);
-  color: white;
-}
+.primary { background: var(--green); color: white; }
+.secondary { background: #203b2a; color: #a6efbd; }
+.ghost { background: var(--card); color: var(--text); border: 1px solid var(--line); }
+.actions button { flex: 1; }
 
-.secondary {
-  background: #203b2a;
-  color: #a6efbd;
-}
-
-.ghost {
-  background: var(--card);
-  color: var(--text);
-  border: 1px solid var(--line);
-}
-
-.actions button {
-  flex: 1;
-}
-
-.search,
-.addrow input {
+.search, .addrow input {
   width: 100%;
   padding: 13px;
   border-radius: 12px;
@@ -131,24 +81,13 @@ button {
   outline-color: var(--green);
 }
 
-h2 {
-  font-size: 17px;
-  margin: 22px 0 10px;
-}
-
-.products {
-  display: grid;
-  gap: 10px;
-}
+h2 { font-size: 17px; margin: 22px 0 10px; }
+.products { display: grid; gap: 10px; }
 
 .product {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 15px;
-  padding: 12px;
 }
 
 .photo {
@@ -162,22 +101,9 @@ h2 {
   font-size: 23px;
 }
 
-.info {
-  flex: 1;
-  min-width: 0;
-}
-
-.name {
-  font-size: 14px;
-  font-weight: 750;
-  overflow-wrap: anywhere;
-}
-
-.meta {
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 4px;
-}
+.info { flex: 1; min-width: 0; }
+.name { font-size: 14px; font-weight: 750; overflow-wrap: anywhere; }
+.meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
 
 .quantity {
   display: flex;
@@ -213,7 +139,6 @@ h2 {
 .qty::-webkit-inner-spin-button,
 .qty::-webkit-outer-spin-button {
   -webkit-appearance: none;
-  margin: 0;
 }
 
 .deletebtn {
@@ -226,29 +151,15 @@ h2 {
   font-weight: 750;
 }
 
-.addrow {
-  display: flex;
-  gap: 8px;
-}
+.addrow { display: flex; gap: 8px; }
+.addrow input { min-width: 0; flex: 1; }
 
-.addrow input {
-  min-width: 0;
-  flex: 1;
-}
-
-.checklist {
-  display: grid;
-  gap: 9px;
-}
+.checklist { display: grid; gap: 9px; }
 
 .checkrow {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 13px;
 }
 
 .checkrow input {
@@ -258,10 +169,7 @@ h2 {
   flex-shrink: 0;
 }
 
-.checkname {
-  flex: 1;
-  font-weight: 750;
-}
+.checkname { flex: 1; font-weight: 750; }
 
 .checkqty {
   color: #a6efbd;
@@ -276,14 +184,9 @@ h2 {
   color: var(--muted);
 }
 
-.checkrow.done {
-  opacity: 0.65;
-}
+.checkrow.done { opacity: .65; }
 
-.small {
-  font-size: 12px;
-  color: var(--muted);
-}
+.small { font-size: 12px; color: var(--muted); }
 
 .empty {
   text-align: center;
@@ -294,9 +197,7 @@ h2 {
   border-radius: 14px;
 }
 
-.hide {
-  display: none !important;
-}
+.hide { display: none !important; }
 
 footer {
   text-align: center;
@@ -306,14 +207,8 @@ footer {
 }
 
 @media (max-width: 390px) {
-  .product {
-    flex-wrap: wrap;
-  }
-
-  .quantity {
-    width: 100%;
-    justify-content: flex-end;
-  }
+  .product { flex-wrap: wrap; }
+  .quantity { width: 100%; justify-content: flex-end; }
 }
 </style>
 </head>
@@ -321,7 +216,7 @@ footer {
 <body>
 
 <header>
-  <div class="brand">🚬 Cigarette Restock</div>
+  <div class="brand">📦 Cigarette Restock</div>
   <div class="sub">Your daily shelf checklist</div>
 </header>
 
@@ -332,7 +227,6 @@ footer {
       <span>Products needed</span>
       <strong id="productCount">0</strong>
     </div>
-
     <div class="stat">
       <span>Total packs needed</span>
       <strong id="packCount">0</strong>
@@ -340,26 +234,14 @@ footer {
   </div>
 
   <div class="actions" id="mainActions">
-    <button class="btn primary" id="checkBtn">
-      ✓ Check list
-    </button>
-
-    <button class="btn ghost" id="clearBtn">
-      🗑️ Delete all cigarettes
-    </button>
+    <button class="btn primary" id="checkBtn">✓ Check list</button>
+    <button class="btn ghost" id="clearBtn">🗑️ Delete all cigarettes</button>
   </div>
 
   <section id="editView">
-
-    <input
-      class="search"
-      id="search"
-      placeholder="🔍 Search cigarettes..."
-      autocomplete="off"
-    >
+    <input class="search" id="search" placeholder="🔍 Search cigarettes..." autocomplete="off">
 
     <h2>Cigarette catalog</h2>
-
     <div class="products" id="products"></div>
 
     <h2>Add a cigarette</h2>
@@ -367,44 +249,39 @@ footer {
     <div class="addrow">
       <input
         id="newName"
-        placeholder="Enter cigarette name"
+        placeholder="Type a cigarette name..."
         maxlength="70"
+        list="nameSuggestions"
+        autocomplete="off"
       >
+      <datalist id="nameSuggestions"></datalist>
 
-      <button class="btn secondary" id="addBtn">
-        + Add
-      </button>
+      <button class="btn secondary" id="addBtn">+ Add</button>
     </div>
 
+    <p class="small">
+      Start typing to see names you've used before.
+    </p>
   </section>
 
   <section id="checkView" class="hide">
-
     <h2>Today's restock list</h2>
 
     <p class="small">
-      Compare your list with the storage paper.
-      Tick each cigarette as you collect it.
+      Compare with your storage paper, then tick each cigarette as you collect it.
     </p>
 
     <p class="small" id="progress"></p>
-
     <div id="checklist" class="checklist"></div>
 
-    <div class="actions" style="margin-top: 16px">
-      <button class="btn ghost" id="backBtn">
-        ← Edit list
-      </button>
-
-      <button class="btn primary" id="finishBtn">
-        Finish day
-      </button>
+    <div class="actions" style="margin-top:16px">
+      <button class="btn ghost" id="backBtn">← Edit list</button>
+      <button class="btn primary" id="finishBtn">Finish day</button>
     </div>
-
   </section>
 
   <footer>
-    Your catalog and quantities are saved automatically on this device.
+    Your catalog and remembered cigarette names are saved on this device.
   </footer>
 
 </main>
@@ -437,25 +314,63 @@ if (!Array.isArray(catalog)) {
 }
 
 let collected = loadData("restock_collected_v1", []);
+if (!Array.isArray(collected)) collected = [];
 
-if (!Array.isArray(collected)) {
-  collected = [];
-}
+// Permanent name history, separate from the active catalog.
+let nameHistory = loadData("restock_name_history_v1", []);
+
+if (!Array.isArray(nameHistory)) nameHistory = [];
+
+// Keep the starter names available as suggestions.
+starterNames.forEach(rememberName);
+
+// Remember products already in the catalog, including products
+// added before this feature existed.
+catalog.forEach(product => rememberName(product.name));
 
 const $ = id => document.getElementById(id);
 
 function save() {
-  localStorage.setItem(
-    "restock_catalog_v1",
-    JSON.stringify(catalog)
-  );
-
-  localStorage.setItem(
-    "restock_collected_v1",
-    JSON.stringify(collected)
-  );
-
+  localStorage.setItem("restock_catalog_v1", JSON.stringify(catalog));
+  localStorage.setItem("restock_collected_v1", JSON.stringify(collected));
+  localStorage.setItem("restock_name_history_v1", JSON.stringify(nameHistory));
   renderStats();
+}
+
+// Remember a name even if its cigarette is later deleted.
+function rememberName(name) {
+  name = String(name).trim();
+  if (!name) return;
+
+  const exists = nameHistory.some(
+    saved => saved.toLowerCase() === name.toLowerCase()
+  );
+
+  if (!exists) {
+    nameHistory.push(name);
+
+    try {
+      localStorage.setItem(
+        "restock_name_history_v1",
+        JSON.stringify(nameHistory)
+      );
+    } catch (error) {
+      console.warn("Could not save name history.", error);
+    }
+  }
+}
+
+function renderSuggestions() {
+  const input = $("newName");
+  const query = input.value.trim().toLowerCase();
+
+  const matches = nameHistory.filter(name =>
+    name.toLowerCase().includes(query)
+  );
+
+  $("nameSuggestions").innerHTML = matches
+    .map(name => `<option value="${escapeHTML(name)}"></option>`)
+    .join("");
 }
 
 function escapeHTML(value) {
@@ -473,15 +388,11 @@ function renderStats() {
     catalog.filter(p => Number(p.qty) > 0).length;
 
   $("packCount").textContent =
-    catalog.reduce(
-      (total, p) => total + (Number(p.qty) || 0),
-      0
-    );
+    catalog.reduce((total, p) => total + (Number(p.qty) || 0), 0);
 }
 
 function changeQuantity(id, amount) {
   const product = catalog.find(p => p.id === id);
-
   if (!product) return;
 
   product.qty = Math.max(
@@ -493,10 +404,10 @@ function changeQuantity(id, amount) {
   renderProducts();
 }
 
+// Delete immediately, without a confirmation popup.
+// The name remains in the remembered history.
 function deleteProduct(id) {
-  // Delete immediately. No confirmation popup.
   catalog = catalog.filter(product => product.id !== id);
-
   collected = collected.filter(productId => productId !== id);
 
   save();
@@ -504,10 +415,10 @@ function deleteProduct(id) {
 }
 
 function renderProducts() {
-  const search = $("search").value.trim().toLowerCase();
+  const query = $("search").value.trim().toLowerCase();
 
   const filtered = catalog.filter(product =>
-    product.name.toLowerCase().includes(search)
+    product.name.toLowerCase().includes(query)
   );
 
   if (filtered.length === 0) {
@@ -523,7 +434,6 @@ function renderProducts() {
   } else {
     $("products").innerHTML = filtered.map(product => `
       <article class="product">
-
         <div class="photo">📦</div>
 
         <div class="info">
@@ -532,12 +442,7 @@ function renderProducts() {
         </div>
 
         <div class="quantity">
-
-          <button
-            class="qtybtn"
-            data-dec="${product.id}"
-            aria-label="Decrease quantity"
-          >−</button>
+          <button class="qtybtn" data-dec="${product.id}">−</button>
 
           <input
             class="qty"
@@ -550,43 +455,28 @@ function renderProducts() {
             value="${product.qty}"
           >
 
-          <button
-            class="qtybtn"
-            data-inc="${product.id}"
-            aria-label="Increase quantity"
-          >+</button>
-
-          <button
-            class="deletebtn"
-            data-delete="${product.id}"
-          >Delete</button>
-
+          <button class="qtybtn" data-inc="${product.id}">+</button>
+          <button class="deletebtn" data-delete="${product.id}">Delete</button>
         </div>
       </article>
     `).join("");
   }
 
   $("products").querySelectorAll("[data-dec]").forEach(button => {
-    button.onclick = () =>
-      changeQuantity(button.dataset.dec, -1);
+    button.onclick = () => changeQuantity(button.dataset.dec, -1);
   });
 
   $("products").querySelectorAll("[data-inc]").forEach(button => {
-    button.onclick = () =>
-      changeQuantity(button.dataset.inc, 1);
+    button.onclick = () => changeQuantity(button.dataset.inc, 1);
   });
 
   $("products").querySelectorAll("[data-delete]").forEach(button => {
-    button.onclick = () =>
-      deleteProduct(button.dataset.delete);
+    button.onclick = () => deleteProduct(button.dataset.delete);
   });
 
   $("products").querySelectorAll("[data-qty]").forEach(input => {
     input.onchange = () => {
-      const product = catalog.find(
-        p => p.id === input.dataset.qty
-      );
-
+      const product = catalog.find(p => p.id === input.dataset.qty);
       if (!product) return;
 
       product.qty = Math.max(
@@ -605,13 +495,9 @@ function renderProducts() {
 function showView(view) {
   $("editView").classList.toggle("hide", view !== "edit");
   $("checkView").classList.toggle("hide", view !== "check");
-
   $("mainActions").classList.toggle("hide", view !== "edit");
 
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function renderChecklist() {
@@ -620,8 +506,7 @@ function renderChecklist() {
   if (needed.length === 0) {
     $("checklist").innerHTML = `
       <div class="empty">
-        No cigarettes needed yet.
-        Go back and enter the missing quantities.
+        No cigarettes needed yet. Go back and enter quantities.
       </div>
     `;
   } else {
@@ -629,23 +514,14 @@ function renderChecklist() {
       <label class="checkrow ${
         collected.includes(product.id) ? "done" : ""
       }">
-
         <input
           type="checkbox"
           data-collected="${product.id}"
-          ${
-            collected.includes(product.id) ? "checked" : ""
-          }
+          ${collected.includes(product.id) ? "checked" : ""}
         >
 
-        <span class="checkname">
-          ${escapeHTML(product.name)}
-        </span>
-
-        <span class="checkqty">
-          × ${product.qty}
-        </span>
-
+        <span class="checkname">${escapeHTML(product.name)}</span>
+        <span class="checkqty">× ${product.qty}</span>
       </label>
     `).join("");
   }
@@ -655,9 +531,7 @@ function renderChecklist() {
       const id = input.dataset.collected;
 
       if (input.checked) {
-        if (!collected.includes(id)) {
-          collected.push(id);
-        }
+        if (!collected.includes(id)) collected.push(id);
       } else {
         collected = collected.filter(item => item !== id);
       }
@@ -675,10 +549,13 @@ function renderChecklist() {
     `${completed} of ${needed.length} collected`;
 }
 
-// Search cigarettes.
+// Update remembered-name suggestions as the user types.
+$("newName").addEventListener("input", renderSuggestions);
+
+// Search the active catalog.
 $("search").addEventListener("input", renderProducts);
 
-// Add a new cigarette.
+// Add a cigarette and remember its name permanently.
 $("addBtn").onclick = () => {
   const name = $("newName").value.trim();
 
@@ -696,6 +573,8 @@ $("addBtn").onclick = () => {
     return;
   }
 
+  rememberName(name);
+
   catalog.push({
     id: "p" + Date.now() + Math.random().toString(16).slice(2, 7),
     name: name,
@@ -707,16 +586,15 @@ $("addBtn").onclick = () => {
   $("newName").value = "";
   $("search").value = "";
 
+  renderSuggestions();
   renderProducts();
 };
 
 $("newName").addEventListener("keydown", event => {
-  if (event.key === "Enter") {
-    $("addBtn").click();
-  }
+  if (event.key === "Enter") $("addBtn").click();
 });
 
-// Open the checklist.
+// Open today's checklist.
 $("checkBtn").onclick = () => {
   collected = [];
   save();
@@ -724,12 +602,11 @@ $("checkBtn").onclick = () => {
   showView("check");
 };
 
-// Return to editing.
-$("backBtn").onclick = () => {
-  showView("edit");
-};
+// Return to the catalog.
+$("backBtn").onclick = () => showView("edit");
 
-// Delete ALL cigarettes immediately.
+// Delete all active cigarettes immediately.
+// Remembered names are deliberately preserved.
 $("clearBtn").onclick = () => {
   catalog = [];
   collected = [];
@@ -738,8 +615,8 @@ $("clearBtn").onclick = () => {
   renderProducts();
 };
 
-// Finish today's restock and reset quantities.
-// Keep the cigarette catalog for tomorrow.
+// Finish the day and reset quantities for tomorrow.
+// Keep the catalog and remembered names.
 $("finishBtn").onclick = () => {
   catalog.forEach(product => {
     product.qty = 0;
@@ -752,9 +629,11 @@ $("finishBtn").onclick = () => {
   showView("edit");
 };
 
-// Initial display.
+// Initialize the website.
+renderSuggestions();
 renderProducts();
 </script>
 
 </body>
 </html>
+```
