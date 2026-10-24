@@ -3,290 +3,380 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#101512">
-<title>Cigarette Restock</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Restock Checklist</title>
 
 <style>
 :root {
-  color-scheme: dark;
-  --bg: #101512;
-  --card: #191f1b;
-  --green: #36a765;
-  --text: #edf5ee;
-  --muted: #9aa99d;
-  --line: #303b33;
+  --bg: #101216;
+  --panel: #1b1f27;
+  --panel2: #242a34;
+  --text: #f4f5f7;
+  --muted: #a9b0bd;
+  --accent: #64d9a0;
+  --danger: #ff6b6b;
+  --border: #343b47;
 }
-* { box-sizing: border-box; }
+
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
+  padding: 16px;
   background: var(--bg);
   color: var(--text);
-  font-family: system-ui, sans-serif;
-  padding-bottom: 30px;
+  font-family: Arial, sans-serif;
 }
 
-header {
-  background: linear-gradient(135deg, #102f1d, #176b3a);
-  padding: 25px 18px;
-  border-radius: 0 0 24px 24px;
-}
-
-.brand { font-size: 25px; font-weight: 850; }
-.sub { color: #d8f3df; font-size: 13px; margin-top: 5px; }
-main { max-width: 680px; margin: auto; padding: 16px; }
-
-.stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.stat, .product, .checkrow {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 15px;
-  padding: 13px;
-}
-
-.stat span { color: var(--muted); font-size: 12px; }
-.stat strong { display: block; font-size: 25px; }
-
-button, input { font: inherit; }
-button { cursor: pointer; }
-
-.actions { display: flex; gap: 8px; margin-bottom: 14px; }
-
-.btn {
-  border: 0;
-  border-radius: 12px;
-  padding: 12px;
-  font-weight: 750;
-}
-
-.primary { background: var(--green); color: white; }
-.secondary { background: #203b2a; color: #a6efbd; }
-.ghost { background: var(--card); color: var(--text); border: 1px solid var(--line); }
-.actions button { flex: 1; }
-
-.search, .addrow input {
+.container {
   width: 100%;
-  padding: 13px;
-  border-radius: 12px;
-  background: var(--card);
-  color: var(--text);
-  border: 1px solid var(--line);
-  outline-color: var(--green);
+  max-width: 850px;
+  margin: 0 auto;
 }
 
-h2 { font-size: 17px; margin: 22px 0 10px; }
-.products { display: grid; gap: 10px; }
-
-.product {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+h1 {
+  font-size: 27px;
+  margin: 8px 0;
 }
 
-.photo {
-  width: 48px;
-  height: 58px;
-  flex-shrink: 0;
-  border-radius: 10px;
-  background: #26372b;
-  display: grid;
-  place-items: center;
-  font-size: 23px;
+h2 {
+  font-size: 20px;
+  margin: 0 0 8px;
 }
 
-.info { flex: 1; min-width: 0; }
-.name { font-size: 14px; font-weight: 750; overflow-wrap: anywhere; }
-.meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
-
-.quantity {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+.subtitle {
+  color: var(--muted);
+  margin: 0 0 20px;
+  line-height: 1.5;
 }
 
-.qtybtn {
-  width: 34px;
-  height: 38px;
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+input, button {
+  font: inherit;
   border-radius: 9px;
-  border: 1px solid var(--line);
-  background: #222b24;
-  color: #a6efbd;
+}
+
+input {
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  background: #11151b;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+button {
+  padding: 11px 13px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+.primary {
+  background: var(--accent);
+  color: #102219;
+}
+
+.secondary {
+  background: var(--panel2);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.danger {
+  background: #482326;
+  color: #ffb5b5;
+  border: 1px solid #74383d;
+}
+
+.add-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.search {
+  margin: 14px 0;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.item-name {
+  font-weight: bold;
+  overflow-wrap: anywhere;
+}
+
+.item-count {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.quantity-control button {
+  width: 38px;
+  height: 40px;
+  padding: 0;
   font-size: 20px;
 }
 
-.qty {
-  width: 46px;
-  height: 38px;
-  padding: 5px 2px;
+.quantity-input {
+  width: 60px;
+  height: 40px;
+  padding: 6px;
   text-align: center;
-  border-radius: 8px;
-  border: 1px solid var(--line);
-  background: #111713;
-  color: var(--text);
-  font-weight: 800;
-  -moz-appearance: textfield;
+  font-weight: bold;
 }
 
-.qty::-webkit-inner-spin-button,
-.qty::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-}
-
-.deletebtn {
-  background: #321e1c;
-  color: #ffaaa2;
-  border: 1px solid #60332f;
-  border-radius: 9px;
+.delete-button {
   padding: 9px;
   font-size: 12px;
-  font-weight: 750;
 }
 
-.addrow { display: flex; gap: 8px; }
-.addrow input { min-width: 0; flex: 1; }
-
-.checklist { display: grid; gap: 9px; }
-
-.checkrow {
+.pickup-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
 }
 
-.checkrow input {
-  width: 22px;
-  height: 22px;
-  accent-color: var(--green);
+.pickup-item:last-child {
+  border-bottom: none;
+}
+
+.pickup-info {
+  min-width: 0;
+}
+
+.pickup-name {
+  font-weight: bold;
+  overflow-wrap: anywhere;
+}
+
+.pickup-quantity {
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.picked-button {
+  background: var(--accent);
+  color: #102219;
   flex-shrink: 0;
 }
 
-.checkname { flex: 1; font-weight: 750; }
-
-.checkqty {
-  color: #a6efbd;
-  background: #203b2a;
-  padding: 6px 9px;
-  border-radius: 8px;
-  font-weight: 800;
-}
-
-.checkrow.done .checkname {
-  text-decoration: line-through;
-  color: var(--muted);
-}
-
-.checkrow.done { opacity: .65; }
-
-.small { font-size: 12px; color: var(--muted); }
-
 .empty {
-  text-align: center;
-  padding: 25px 15px;
   color: var(--muted);
-  background: var(--card);
-  border: 1px dashed var(--line);
-  border-radius: 14px;
+  padding: 15px 0;
+  line-height: 1.5;
 }
 
-.hide { display: none !important; }
-
-footer {
-  text-align: center;
+.section-description {
   color: var(--muted);
-  font-size: 11px;
-  margin-top: 25px;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 0 12px;
 }
 
-@media (max-width: 390px) {
-  .product { flex-wrap: wrap; }
-  .quantity { width: 100%; justify-content: flex-end; }
+.badge {
+  display: inline-block;
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 20px;
+  padding: 5px 9px;
+  font-size: 12px;
+  margin: 8px 0 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.progress {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 12px 0 0;
+}
+
+@media (max-width: 520px) {
+  body {
+    padding: 10px;
+  }
+
+  .panel {
+    padding: 12px;
+  }
+
+  .item {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .delete-button {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  .quantity-control {
+    gap: 4px;
+  }
+
+  .quantity-control button {
+    width: 34px;
+    height: 38px;
+  }
+
+  .quantity-input {
+    width: 48px;
+    height: 38px;
+  }
+
+  .pickup-item {
+    align-items: flex-start;
+  }
+
+  .picked-button {
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
 }
 </style>
 </head>
 
 <body>
+<div class="container">
 
-<header>
-  <div class="brand">📦 Cigarette Restock</div>
-  <div class="sub">Your daily shelf checklist</div>
-</header>
+  <h1>📦 Restock Checklist</h1>
+  <p class="subtitle">
+    Enter quantities in the first chart. Your pick-up checklist updates
+    automatically in the second chart.
+  </p>
 
-<main>
+  <!-- ADD CIGARETTE -->
+  <section class="panel">
+    <h2>➕ Add a cigarette</h2>
+    <p class="section-description">
+      Start typing a name to see names you've used before.
+    </p>
 
-  <div class="stats">
-    <div class="stat">
-      <span>Products needed</span>
-      <strong id="productCount">0</strong>
-    </div>
-    <div class="stat">
-      <span>Total packs needed</span>
-      <strong id="packCount">0</strong>
-    </div>
-  </div>
-
-  <div class="actions" id="mainActions">
-    <button class="btn primary" id="checkBtn">✓ Check list</button>
-    <button class="btn ghost" id="clearBtn">🗑️ Delete all cigarettes</button>
-  </div>
-
-  <section id="editView">
-    <input class="search" id="search" placeholder="🔍 Search cigarettes..." autocomplete="off">
-
-    <h2>Cigarette catalog</h2>
-    <div class="products" id="products"></div>
-
-    <h2>Add a cigarette</h2>
-
-    <div class="addrow">
+    <div class="add-row">
       <input
         id="newName"
-        placeholder="Type a cigarette name..."
-        maxlength="70"
+        type="text"
+        placeholder="Cigarette name"
         list="nameSuggestions"
         autocomplete="off"
       >
       <datalist id="nameSuggestions"></datalist>
-
-      <button class="btn secondary" id="addBtn">+ Add</button>
-    </div>
-
-    <p class="small">
-      Start typing to see names you've used before.
-    </p>
-  </section>
-
-  <section id="checkView" class="hide">
-    <h2>Today's restock list</h2>
-
-    <p class="small">
-      Compare with your storage paper, then tick each cigarette as you collect it.
-    </p>
-
-    <p class="small" id="progress"></p>
-    <div id="checklist" class="checklist"></div>
-
-    <div class="actions" style="margin-top:16px">
-      <button class="btn ghost" id="backBtn">← Edit list</button>
-      <button class="btn primary" id="finishBtn">Finish day</button>
+      <button class="primary" id="addButton">Add</button>
     </div>
   </section>
 
-  <footer>
-    Your catalog and remembered cigarette names are saved on this device.
-  </footer>
+  <!-- CHART 1 -->
+  <section class="panel">
+    <h2>📋 Chart 1 — Enter quantities</h2>
+    <p class="section-description">
+      Enter how many packs you need for each cigarette. Only quantities
+      above zero appear in the pick-up chart.
+    </p>
 
-</main>
+    <input
+      class="search"
+      id="searchInput"
+      type="search"
+      placeholder="🔍 Search cigarettes..."
+    >
+
+    <div id="catalogList"></div>
+
+    <div class="actions">
+      <button class="danger" id="deleteAllButton">
+        Delete all cigarettes
+      </button>
+    </div>
+
+    <p class="section-description">
+      Deleting cigarettes removes them from your active list, but their
+      names remain saved as suggestions.
+    </p>
+  </section>
+
+  <!-- CHART 2 -->
+  <section class="panel">
+    <h2>🛒 Chart 2 — Pick-up checklist</h2>
+    <p class="section-description">
+      When you collect a cigarette from storage, tap “✓ Picked Up”.
+      It will disappear from this chart but remain in Chart 1.
+    </p>
+
+    <div id="pickupList"></div>
+    <p class="progress" id="progressText"></p>
+  </section>
+
+  <!-- DAILY ACTIONS -->
+  <section class="panel">
+    <h2>🌙 Finish the day</h2>
+    <p class="section-description">
+      When your shift is finished, reset the quantities and pick-up
+      checklist for the next day. Your cigarette names will remain saved.
+    </p>
+
+    <button class="primary" id="finishDayButton">
+      Finish day and reset
+    </button>
+  </section>
+
+</div>
 
 <script>
+const CATALOG_KEY = "restock_catalog_v2";
+const HISTORY_KEY = "restock_name_history_v1";
+const PICKED_KEY = "restock_picked_v2";
+
 const starterNames = [
   "Forest Mix",
   "Crafted Gold",
@@ -294,346 +384,368 @@ const starterNames = [
   "Aqua Blue"
 ];
 
-function loadData(key, fallback) {
+let catalog = loadJSON(CATALOG_KEY, null);
+let nameHistory = loadJSON(HISTORY_KEY, []);
+let picked = loadJSON(PICKED_KEY, []);
+
+if (!Array.isArray(nameHistory)) nameHistory = [];
+if (!Array.isArray(picked)) picked = [];
+
+if (!Array.isArray(catalog)) {
+  catalog = starterNames.map((name, index) => ({
+    id: makeId(),
+    name,
+    quantity: 0
+  }));
+}
+
+// Remember the starter names and names already in the catalog.
+starterNames.forEach(rememberName);
+
+catalog.forEach(item => {
+  if (typeof item.id === "undefined") item.id = makeId();
+  if (typeof item.quantity !== "number") item.quantity = 0;
+  rememberName(item.name);
+});
+
+saveAll();
+
+function loadJSON(key, fallback) {
   try {
-    const value = JSON.parse(localStorage.getItem(key));
-    return value === null ? fallback : value;
-  } catch {
+    const value = localStorage.getItem(key);
+    return value === null ? fallback : JSON.parse(value);
+  } catch (error) {
     return fallback;
   }
 }
 
-let catalog = loadData("restock_catalog_v1", null);
-
-if (!Array.isArray(catalog)) {
-  catalog = starterNames.map((name, i) => ({
-    id: "p" + (i + 1),
-    name: name,
-    qty: 0
-  }));
+function makeId() {
+  return Date.now().toString(36) +
+    Math.random().toString(36).slice(2, 9);
 }
 
-let collected = loadData("restock_collected_v1", []);
-if (!Array.isArray(collected)) collected = [];
-
-// Permanent name history, separate from the active catalog.
-let nameHistory = loadData("restock_name_history_v1", []);
-
-if (!Array.isArray(nameHistory)) nameHistory = [];
-
-// Keep the starter names available as suggestions.
-starterNames.forEach(rememberName);
-
-// Remember products already in the catalog, including products
-// added before this feature existed.
-catalog.forEach(product => rememberName(product.name));
-
-const $ = id => document.getElementById(id);
-
-function save() {
-  localStorage.setItem("restock_catalog_v1", JSON.stringify(catalog));
-  localStorage.setItem("restock_collected_v1", JSON.stringify(collected));
-  localStorage.setItem("restock_name_history_v1", JSON.stringify(nameHistory));
-  renderStats();
+function saveAll() {
+  localStorage.setItem(CATALOG_KEY, JSON.stringify(catalog));
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(nameHistory));
+  localStorage.setItem(PICKED_KEY, JSON.stringify(picked));
 }
 
-// Remember a name even if its cigarette is later deleted.
 function rememberName(name) {
-  name = String(name).trim();
-  if (!name) return;
+  const cleanName = String(name || "").trim();
+
+  if (!cleanName) return;
 
   const exists = nameHistory.some(
-    saved => saved.toLowerCase() === name.toLowerCase()
+    saved => saved.toLowerCase() === cleanName.toLowerCase()
   );
 
   if (!exists) {
-    nameHistory.push(name);
-
-    try {
-      localStorage.setItem(
-        "restock_name_history_v1",
-        JSON.stringify(nameHistory)
-      );
-    } catch (error) {
-      console.warn("Could not save name history.", error);
-    }
+    nameHistory.push(cleanName);
   }
+}
+
+function isPicked(id) {
+  return picked.includes(id);
 }
 
 function renderSuggestions() {
-  const input = $("newName");
-  const query = input.value.trim().toLowerCase();
+  const datalist = document.getElementById("nameSuggestions");
+  const input = document.getElementById("newName");
+  const search = input.value.trim().toLowerCase();
 
-  const matches = nameHistory.filter(name =>
-    name.toLowerCase().includes(query)
+  datalist.innerHTML = "";
+
+  nameHistory
+    .filter(name => name.toLowerCase().includes(search))
+    .forEach(name => {
+      const option = document.createElement("option");
+      option.value = name;
+      datalist.appendChild(option);
+    });
+}
+
+function addCigarette() {
+  const input = document.getElementById("newName");
+  const name = input.value.trim();
+
+  if (!name) {
+    input.focus();
+    return;
+  }
+
+  const existing = catalog.some(
+    item => item.name.toLowerCase() === name.toLowerCase()
   );
 
-  $("nameSuggestions").innerHTML = matches
-    .map(name => `<option value="${escapeHTML(name)}"></option>`)
-    .join("");
+  if (existing) {
+    alert("This cigarette is already in your active list.");
+    return;
+  }
+
+  const item = {
+    id: makeId(),
+    name,
+    quantity: 0
+  };
+
+  catalog.push(item);
+  rememberName(name);
+
+  input.value = "";
+  saveAll();
+  renderAll();
+
+  document.getElementById("searchInput").value = "";
 }
 
-function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, character => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[character]);
+function changeQuantity(id, newQuantity) {
+  const item = catalog.find(item => item.id === id);
+  if (!item) return;
+
+  const quantity = Number(newQuantity);
+
+  if (!Number.isFinite(quantity) || quantity < 0) return;
+
+  item.quantity = Math.floor(quantity);
+
+  // If the quantity changes, make the cigarette available
+  // in the pick-up list again when its quantity is above zero.
+  if (item.quantity > 0) {
+    picked = picked.filter(pickedId => pickedId !== id);
+  } else {
+    picked = picked.filter(pickedId => pickedId !== id);
+  }
+
+  saveAll();
+  renderAll();
 }
 
-function renderStats() {
-  $("productCount").textContent =
-    catalog.filter(p => Number(p.qty) > 0).length;
+function deleteCigarette(id) {
+  const item = catalog.find(item => item.id === id);
+  if (!item) return;
 
-  $("packCount").textContent =
-    catalog.reduce((total, p) => total + (Number(p.qty) || 0), 0);
+  // Keep its name in nameHistory, even after deletion.
+  rememberName(item.name);
+
+  catalog = catalog.filter(item => item.id !== id);
+  picked = picked.filter(pickedId => pickedId !== id);
+
+  saveAll();
+  renderAll();
 }
 
-function changeQuantity(id, amount) {
-  const product = catalog.find(p => p.id === id);
-  if (!product) return;
+function deleteAllCigarettes() {
+  // Preserve every name in history.
+  catalog.forEach(item => rememberName(item.name));
 
-  product.qty = Math.max(
-    0,
-    Math.min(9999, (Number(product.qty) || 0) + amount)
-  );
+  catalog = [];
+  picked = [];
 
-  save();
-  renderProducts();
+  saveAll();
+  renderAll();
 }
 
-// Delete immediately, without a confirmation popup.
-// The name remains in the remembered history.
-function deleteProduct(id) {
-  catalog = catalog.filter(product => product.id !== id);
-  collected = collected.filter(productId => productId !== id);
+function markPicked(id) {
+  if (!picked.includes(id)) {
+    picked.push(id);
+  }
 
-  save();
-  renderProducts();
+  saveAll();
+  renderAll();
 }
 
-function renderProducts() {
-  const query = $("search").value.trim().toLowerCase();
+function renderCatalog() {
+  const container = document.getElementById("catalogList");
+  const search = document.getElementById("searchInput")
+    .value.trim().toLowerCase();
 
-  const filtered = catalog.filter(product =>
-    product.name.toLowerCase().includes(query)
+  container.innerHTML = "";
+
+  const filtered = catalog.filter(item =>
+    item.name.toLowerCase().includes(search)
   );
 
   if (filtered.length === 0) {
-    $("products").innerHTML = `
+    container.innerHTML = `
       <div class="empty">
-        ${
-          catalog.length === 0
-            ? "Your catalog is empty. Add cigarettes below."
-            : "No cigarettes found."
-        }
+        ${catalog.length === 0
+          ? "Your cigarette list is empty. Add a cigarette above."
+          : "No cigarettes match your search."}
       </div>
     `;
-  } else {
-    $("products").innerHTML = filtered.map(product => `
-      <article class="product">
-        <div class="photo">📦</div>
-
-        <div class="info">
-          <div class="name">${escapeHTML(product.name)}</div>
-          <div class="meta">Packs missing today</div>
-        </div>
-
-        <div class="quantity">
-          <button class="qtybtn" data-dec="${product.id}">−</button>
-
-          <input
-            class="qty"
-            type="number"
-            min="0"
-            max="9999"
-            inputmode="numeric"
-            aria-label="Quantity for ${escapeHTML(product.name)}"
-            data-qty="${product.id}"
-            value="${product.qty}"
-          >
-
-          <button class="qtybtn" data-inc="${product.id}">+</button>
-          <button class="deletebtn" data-delete="${product.id}">Delete</button>
-        </div>
-      </article>
-    `).join("");
+    return;
   }
 
-  $("products").querySelectorAll("[data-dec]").forEach(button => {
-    button.onclick = () => changeQuantity(button.dataset.dec, -1);
-  });
+  filtered.forEach(item => {
+    const row = document.createElement("div");
+    row.className = "item";
 
-  $("products").querySelectorAll("[data-inc]").forEach(button => {
-    button.onclick = () => changeQuantity(button.dataset.inc, 1);
-  });
+    const details = document.createElement("div");
 
-  $("products").querySelectorAll("[data-delete]").forEach(button => {
-    button.onclick = () => deleteProduct(button.dataset.delete);
-  });
+    const name = document.createElement("div");
+    name.className = "item-name";
+    name.textContent = item.name;
 
-  $("products").querySelectorAll("[data-qty]").forEach(input => {
-    input.onchange = () => {
-      const product = catalog.find(p => p.id === input.dataset.qty);
-      if (!product) return;
+    const status = document.createElement("div");
+    status.className = "item-count";
+    status.textContent = item.quantity > 0
+      ? "Needed: " + item.quantity
+      : "No quantity entered";
 
-      product.qty = Math.max(
-        0,
-        Math.min(9999, parseInt(input.value, 10) || 0)
-      );
+    details.appendChild(name);
+    details.appendChild(status);
 
-      save();
-      renderProducts();
-    };
-  });
+    const quantityControl = document.createElement("div");
+    quantityControl.className = "quantity-control";
 
-  renderStats();
-}
+    const minus = document.createElement("button");
+    minus.className = "secondary";
+    minus.textContent = "−";
+    minus.setAttribute("aria-label", "Decrease quantity");
+    minus.addEventListener("click", () => {
+      changeQuantity(item.id, Math.max(0, item.quantity - 1));
+    });
 
-function showView(view) {
-  $("editView").classList.toggle("hide", view !== "edit");
-  $("checkView").classList.toggle("hide", view !== "check");
-  $("mainActions").classList.toggle("hide", view !== "edit");
+    const quantityInput = document.createElement("input");
+    quantityInput.className = "quantity-input";
+    quantityInput.type = "number";
+    quantityInput.min = "0";
+    quantityInput.step = "1";
+    quantityInput.inputMode = "numeric";
+    quantityInput.value = item.quantity;
+    quantityInput.setAttribute("aria-label", item.name + " quantity");
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
+    quantityInput.addEventListener("change", () => {
+      const value = Number(quantityInput.value);
 
-function renderChecklist() {
-  const needed = catalog.filter(product => Number(product.qty) > 0);
-
-  if (needed.length === 0) {
-    $("checklist").innerHTML = `
-      <div class="empty">
-        No cigarettes needed yet. Go back and enter quantities.
-      </div>
-    `;
-  } else {
-    $("checklist").innerHTML = needed.map(product => `
-      <label class="checkrow ${
-        collected.includes(product.id) ? "done" : ""
-      }">
-        <input
-          type="checkbox"
-          data-collected="${product.id}"
-          ${collected.includes(product.id) ? "checked" : ""}
-        >
-
-        <span class="checkname">${escapeHTML(product.name)}</span>
-        <span class="checkqty">× ${product.qty}</span>
-      </label>
-    `).join("");
-  }
-
-  $("checklist").querySelectorAll("[data-collected]").forEach(input => {
-    input.onchange = () => {
-      const id = input.dataset.collected;
-
-      if (input.checked) {
-        if (!collected.includes(id)) collected.push(id);
-      } else {
-        collected = collected.filter(item => item !== id);
+      if (!Number.isFinite(value) || value < 0) {
+        quantityInput.value = item.quantity;
+        return;
       }
 
-      save();
-      renderChecklist();
-    };
+      changeQuantity(item.id, Math.floor(value));
+    });
+
+    const plus = document.createElement("button");
+    plus.className = "secondary";
+    plus.textContent = "+";
+    plus.setAttribute("aria-label", "Increase quantity");
+    plus.addEventListener("click", () => {
+      changeQuantity(item.id, item.quantity + 1);
+    });
+
+    quantityControl.appendChild(minus);
+    quantityControl.appendChild(quantityInput);
+    quantityControl.appendChild(plus);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "danger delete-button";
+    deleteButton.textContent = "Delete";
+    deleteButton.addEventListener("click", () => {
+      deleteCigarette(item.id);
+    });
+
+    row.appendChild(details);
+    row.appendChild(quantityControl);
+    row.appendChild(deleteButton);
+
+    container.appendChild(row);
   });
-
-  const completed = needed.filter(product =>
-    collected.includes(product.id)
-  ).length;
-
-  $("progress").textContent =
-    `${completed} of ${needed.length} collected`;
 }
 
-// Update remembered-name suggestions as the user types.
-$("newName").addEventListener("input", renderSuggestions);
+function renderPickupList() {
+  const container = document.getElementById("pickupList");
+  const progress = document.getElementById("progressText");
 
-// Search the active catalog.
-$("search").addEventListener("input", renderProducts);
+  container.innerHTML = "";
 
-// Add a cigarette and remember its name permanently.
-$("addBtn").onclick = () => {
-  const name = $("newName").value.trim();
+  const needed = catalog.filter(item => item.quantity > 0);
+  const remaining = needed.filter(item => !isPicked(item.id));
 
-  if (!name) {
-    $("newName").focus();
-    return;
+  if (remaining.length === 0) {
+    container.innerHTML = `
+      <div class="empty">
+        ${needed.length === 0
+          ? "No cigarettes to pick up yet. Enter quantities in Chart 1."
+          : "🎉 All cigarettes have been picked up!"}
+      </div>
+    `;
+  } else {
+    remaining.forEach(item => {
+      const row = document.createElement("div");
+      row.className = "pickup-item";
+
+      const info = document.createElement("div");
+      info.className = "pickup-info";
+
+      const name = document.createElement("div");
+      name.className = "pickup-name";
+      name.textContent = item.name;
+
+      const quantity = document.createElement("div");
+      quantity.className = "pickup-quantity";
+      quantity.textContent = "Quantity to collect: " + item.quantity;
+
+      info.appendChild(name);
+      info.appendChild(quantity);
+
+      const button = document.createElement("button");
+      button.className = "picked-button";
+      button.textContent = "✓ Picked Up";
+      button.addEventListener("click", () => {
+        markPicked(item.id);
+      });
+
+      row.appendChild(info);
+      row.appendChild(button);
+      container.appendChild(row);
+    });
   }
 
-  const exists = catalog.some(product =>
-    product.name.toLowerCase() === name.toLowerCase()
-  );
+  const collected = needed.filter(item => isPicked(item.id)).length;
 
-  if (exists) {
-    alert("This cigarette is already in your catalog.");
-    return;
-  }
+  progress.textContent =
+    "Picked up: " + collected + " of " + needed.length +
+    " cigarette types.";
+}
 
-  rememberName(name);
-
-  catalog.push({
-    id: "p" + Date.now() + Math.random().toString(16).slice(2, 7),
-    name: name,
-    qty: 0
-  });
-
-  save();
-
-  $("newName").value = "";
-  $("search").value = "";
-
+function renderAll() {
+  renderCatalog();
+  renderPickupList();
   renderSuggestions();
-  renderProducts();
-};
+}
 
-$("newName").addEventListener("keydown", event => {
-  if (event.key === "Enter") $("addBtn").click();
-});
+document.getElementById("addButton")
+  .addEventListener("click", addCigarette);
 
-// Open today's checklist.
-$("checkBtn").onclick = () => {
-  collected = [];
-  save();
-  renderChecklist();
-  showView("check");
-};
+document.getElementById("newName")
+  .addEventListener("input", renderSuggestions);
 
-// Return to the catalog.
-$("backBtn").onclick = () => showView("edit");
-
-// Delete all active cigarettes immediately.
-// Remembered names are deliberately preserved.
-$("clearBtn").onclick = () => {
-  catalog = [];
-  collected = [];
-
-  save();
-  renderProducts();
-};
-
-// Finish the day and reset quantities for tomorrow.
-// Keep the catalog and remembered names.
-$("finishBtn").onclick = () => {
-  catalog.forEach(product => {
-    product.qty = 0;
+document.getElementById("newName")
+  .addEventListener("keydown", event => {
+    if (event.key === "Enter") addCigarette();
   });
 
-  collected = [];
+document.getElementById("searchInput")
+  .addEventListener("input", renderCatalog);
 
-  save();
-  renderProducts();
-  showView("edit");
-};
+document.getElementById("deleteAllButton")
+  .addEventListener("click", deleteAllCigarettes);
 
-// Initialize the website.
-renderSuggestions();
-renderProducts();
+document.getElementById("finishDayButton")
+  .addEventListener("click", () => {
+    catalog.forEach(item => {
+      item.quantity = 0;
+    });
+
+    picked = [];
+
+    saveAll();
+    renderAll();
+  });
+
+renderAll();
 </script>
-
 </body>
 </html>
 ```
