@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#176b3a">
+<title>Cigarette Restock</title>
+<style>
+:root{--green:#176b3a;--green2:#25884d;--lime:#d9f99d;--bg:#f3f7f2;--card:#fff;--text:#17251b;--muted:#6b786f;--line:#e1e9e1;--red:#b42318}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+header{background:linear-gradient(135deg,#12552e,#25884d);color:white;padding:24px 18px 22px;border-radius:0 0 24px 24px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-size:23px;font-weight:850;letter-spacing:-.6px}.sub{font-size:13px;color:#d8f3df;margin-top:4px}.pill{background:#ffffff20;border:1px solid #ffffff35;border-radius:999px;padding:7px 10px;font-size:12px}
+main{max-width:680px;margin:0 auto;padding:16px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:-3px;margin-bottom:16px}.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}.stat span{font-size:12px;color:var(--muted)}.stat strong{display:block;font-size:25px;margin-top:2px}
+.actions{display:flex;gap:9px;margin-bottom:14px}.btn{border:0;border-radius:12px;padding:12px 14px;font:inherit;font-weight:750;cursor:pointer}.primary{background:var(--green);color:white}.secondary{background:#e3f2e6;color:var(--green)}.ghost{background:white;border:1px solid var(--line);color:var(--text)}.actions .btn{flex:1}
+.searchwrap{position:relative;margin-bottom:12px}.search{width:100%;padding:14px 14px 14px 42px;border:1px solid var(--line);border-radius:14px;font:inherit;background:white;outline-color:var(--green)}.searchicon{position:absolute;left:14px;top:13px;color:var(--muted)}
+.sectionhead{display:flex;align-items:center;justify-content:space-between;margin:18px 2px 10px}.sectionhead h2{font-size:17px;margin:0}.small{font-size:12px;color:var(--muted)}
+.products{display:grid;gap:10px}.product{display:flex;align-items:center;gap:11px;background:var(--card);border:1px solid var(--line);border-radius:17px;padding:12px}.photo{width:56px;height:66px;border-radius:11px;background:linear-gradient(145deg,#e6eee6,#f8faf7);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;color:#728176;font-size:10px;text-align:center}.photo img{width:100%;height:100%;object-fit:cover}.info{flex:1;min-width:0}.name{font-weight:750;font-size:14px;overflow-wrap:anywhere}.meta{font-size:12px;color:var(--muted);margin-top:4px}.quantity{display:flex;align-items:center;gap:7px}.qtybtn{width:34px;height:36px;border:1px solid var(--line);background:#f8faf8;border-radius:10px;font-size:20px;line-height:1;color:var(--green);font-weight:700}.qty{width:42px;text-align:center;font-size:16px;font-weight:800;border:1px solid var(--line);border-radius:9px;padding:8px 2px;background:white;outline-color:var(--green);-moz-appearance:textfield}.qty::-webkit-inner-spin-button,.qty::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.addrow{display:flex;gap:8px;margin-top:12px}.addrow input{min-width:0;flex:1;padding:12px;border:1px solid var(--line);border-radius:12px;font:inherit;background:white}.addrow button{white-space:nowrap}
+.empty{padding:28px 16px;text-align:center;color:var(--muted);background:white;border:1px dashed #cbd8cc;border-radius:16px}
+.hide{display:none!important}.checkrow{display:flex;align-items:center;gap:11px;padding:13px;background:white;border:1px solid var(--line);border-radius:14px}.checkrow input{width:22px;height:22px;accent-color:var(--green);flex-shrink:0}.checkrow .checkname{font-weight:750;flex:1}.checkrow .checkqty{font-weight:850;background:#e8f5e9;color:var(--green);border-radius:9px;padding:6px 9px}.checkrow.done .checkname{text-decoration:line-through;color:var(--muted)}.checkrow.done{opacity:.65}
+footer{text-align:center;color:var(--muted);font-size:11px;margin:22px 10px 0}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#17251b;color:white;padding:11px 16px;border-radius:12px;font-size:13px;box-shadow:0 8px 30px #0002;z-index:5;max-width:90%;text-align:center}
+@media(min-width:520px){.products{grid-template-columns:1fr 1fr}.product{align-items:flex-start;flex-wrap:wrap}.info{padding-top:3px}.quantity{width:100%;justify-content:flex-end}.photo{height:68px}}
+</style>
+</head>
+<body>
+<header><div class="top"><div><div class="brand">Cigarette Restock</div><div class="sub">Your daily shelf checklist</div></div><div class="pill">📦 Stock helper</div></div></header>
+<main>
+<div class="stats"><div class="stat"><span>Products on your list</span><strong id="productCount">0</strong></div><div class="stat"><span>Total packs needed</span><strong id="packCount">0</strong></div></div>
+<div class="actions"><button class="btn primary" id="checkBtn">✓ Check restock list</button><button class="btn ghost" id="clearBtn">Clear quantities</button></div>
+<section id="editView">
+<div class="searchwrap"><span class="searchicon">⌕</span><input class="search" id="search" placeholder="Search cigarettes…" autocomplete="off"></div>
+<div class="sectionhead"><h2>Cigarette catalog</h2><span class="small">Set today's amounts</span></div>
+<div class="products" id="products"></div>
+<div class="sectionhead"><h2>Add a cigarette</h2><span class="small">For products not listed</span></div>
+<div class="addrow"><input id="newName" placeholder="Cigarette name" maxlength="70"><button class="btn secondary" id="addBtn">＋ Add</button></div>
+</section>
+<section id="checkView" class="hide">
+<div class="sectionhead"><h2>Today's restock list</h2><span class="small" id="progress">0 collected</span></div>
+<p class="small" style="margin:0 2px 12px">Compare this list with the storage paper, then tick each product as you collect and restock it.</p>
+<div id="checklist" style="display:grid;gap:9px"></div>
+<div class="actions" style="margin-top:14px"><button class="btn ghost" id="backBtn">← Edit quantities</button><button class="btn primary" id="finishBtn">Finish day</button></div>
+</section>
+<footer>Amounts are saved on this device automatically. Use Clear quantities to start a new morning.</footer>
+</main>
+<div id="toast" class="toast hide" role="status"></div>
+<script>
+const starterNames=["Forest Mix","Crafted Gold","Soho Night Blue","Aqua Blue"];
+let catalog=JSON.parse(localStorage.getItem("restock_catalog_v1")||"null");
+if(!Array.isArray(catalog)) catalog=starterNames.map((name,i)=>({id:"p"+(i+1),name,qty:0}));
+let collected=JSON.parse(localStorage.getItem("restock_collected_v1")||"[]");
+let view="edit",toastTimer;
+const $=id=>document.getElementById(id);
+function save(){localStorage.setItem("restock_catalog_v1",JSON.stringify(catalog));localStorage.setItem("restock_collected_v1",JSON.stringify(collected));renderStats()}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function renderStats(){$("productCount").textContent=catalog.filter(p=>p.qty>0).length;$("packCount").textContent=catalog.reduce((n,p)=>n+Math.max(0,Number(p.qty)||0),0)}
+function renderProducts(){
+ const q=$("search").value.trim().toLowerCase();
+ const list=catalog.filter(p=>p.name.toLowerCase().includes(q));
+ $("products").innerHTML=list.length?list.map(p=>`<article class="product"><div class="photo">📦<br>Product</div><div class="info"><div class="name">${escapeHtml(p.name)}</div><div class="meta">Packs missing today</div></div><div class="quantity"><button class="qtybtn" aria-label="Decrease ${escapeHtml(p.name)}" data-dec="${p.id}">−</button><input class="qty" type="number" min="0" max="9999" inputmode="numeric" aria-label="Quantity for ${escapeHtml(p.name)}" data-qty="${p.id}" value="${p.qty}" /><button class="qtybtn" aria-label="Increase ${escapeHtml(p.name)}" data-inc="${p.id}">＋</button></div></article>`).join(""):`<div class="empty">No cigarettes found. Add it below if it's a new product.</div>`;
+ $("products").querySelectorAll("[data-dec]").forEach(b=>b.onclick=()=>changeQty(b.dataset.dec,-1));
+ $("products").querySelectorAll("[data-inc]").forEach(b=>b.onclick=()=>changeQty(b.dataset.inc,1));
+ $("products").querySelectorAll("[data-qty]").forEach(inp=>inp.onchange=()=>{let p=catalog.find(x=>x.id===inp.dataset.qty);p.qty=Math.max(0,Math.min(9999,parseInt(inp.value||"0",10)||0));save();renderProducts()});
+ renderStats();
+}
+function changeQty(id,delta){const p=catalog.find(x=>x.id===id);if(!p)return;p.qty=Math.max(0,Math.min(9999,(Number(p.qty)||0)+delta));save();renderProducts()}
+function showToast(msg){$("toast").textContent=msg;$("toast").classList.remove("hide");clearTimeout(toastTimer);toastTimer=setTimeout(()=>$("toast").classList.add("hide"),2200)}
+function switchView(v){view=v;$("editView").classList.toggle("hide",v!=="edit");$("checkView").classList.toggle("hide",v!=="check");$("checkBtn").classList.toggle("hide",v!=="edit");$("clearBtn").classList.toggle("hide",v!=="edit");if(v==="check")renderChecklist();window.scrollTo({top:0,behavior:"smooth"})}
+function renderChecklist(){
+ const list=catalog.filter(p=>p.qty>0);
+ $("checklist").innerHTML=list.length?list.map(p=>`<label class="checkrow ${collected.includes(p.id)?"done":""}"><input type="checkbox" data-collected="${p.id}" ${collected.includes(p.id)?"checked":""}><span class="checkname">${escapeHtml(p.name)}</span><span class="checkqty">× ${p.qty}</span></label>`).join(""):`<div class="empty">No quantities added yet. Go back and enter the missing packs.</div>`;
+ $("checklist").querySelectorAll("[data-collected]").forEach(inp=>inp.onchange=()=>{if(inp.checked&&!collected.includes(inp.dataset.collected))collected.push(inp.dataset.collected);else collected=collected.filter(id=>id!==inp.dataset.collected);save();renderChecklist()});
+ $("progress").textContent=`${list.filter(p=>collected.includes(p.id)).length} / ${list.length} collected`;
+}
+$("search").addEventListener("input",renderProducts);
+$("addBtn").onclick=()=>{const name=$("newName").value.trim();if(!name){showToast("Enter a cigarette name first.");$("newName").focus();return}if(catalog.some(p=>p.name.toLowerCase()===name.toLowerCase())){showToast("That cigarette is already in the catalog.");return}catalog.push({id:"p"+Date.now()+Math.random().toString(16).slice(2,6),name,qty:0});save();$("newName").value="";$("search").value="";renderProducts();showToast("Cigarette added to your catalog.")};
+$("newName").addEventListener("keydown",e=>{if(e.key==="Enter")$("addBtn").click()});
+$("checkBtn").onclick=()=>{collected=[];save();switchView("check")};
+$("backBtn").onclick=()=>switchView("edit");
+$("clearBtn").onclick=()=>{if(confirm("Clear all quantities for a new morning? Your cigarette catalog will stay saved.")){catalog.forEach(p=>p.qty=0);collected=[];save();renderProducts();showToast("Quantities cleared. Ready for a new day.")}};
+$("finishBtn").onclick=()=>{if(confirm("Finish today's restock and reset all quantities for tomorrow?")){catalog.forEach(p=>p.qty=0);collected=[];save();renderProducts();switchView("edit");showToast("Finished! Your catalog is ready for tomorrow.")}};
+renderProducts();
+</script>
+</body>
+</html>
