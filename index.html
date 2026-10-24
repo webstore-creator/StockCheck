@@ -1,76 +1,353 @@
-from pathlib import Path
 
-path = Path("/mnt/data/cigarette_restock.html")
-html = path.read_text(encoding="utf-8")
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101512">
+<title>Cigarette Restock</title>
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #101512;
+  --card: #191f1b;
+  --green: #36a765;
+  --text: #edf5ee;
+  --muted: #9aa99d;
+  --line: #303b33;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, sans-serif;
+  padding-bottom: 30px;
+}
+header {
+  background: linear-gradient(135deg,#102f1d,#176b3a);
+  padding: 24px 18px;
+  border-radius: 0 0 24px 24px;
+}
+.brand { font-size: 25px; font-weight: 850; }
+.sub { color: #d8f3df; font-size: 13px; margin-top: 4px; }
+main { max-width: 680px; margin: auto; padding: 16px; }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+.stat, .product, .checkrow {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  padding: 13px;
+}
+.stat span { color: var(--muted); font-size: 12px; }
+.stat strong { display: block; font-size: 25px; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+.actions { display: flex; gap: 8px; margin-bottom: 14px; }
+.btn { border: 0; border-radius: 12px; padding: 12px; font-weight: 750; }
+.primary { background: var(--green); color: white; }
+.secondary { background: #203b2a; color: #a6efbd; }
+.ghost { background: var(--card); color: var(--text); border: 1px solid var(--line); }
+.actions button { flex: 1; }
+.search, .addrow input {
+  width: 100%; padding: 13px; border-radius: 12px;
+  background: var(--card); color: var(--text);
+  border: 1px solid var(--line); outline-color: var(--green);
+}
+h2 { font-size: 17px; margin: 20px 0 10px; }
+.products { display: grid; gap: 10px; }
+.product { display: flex; align-items: center; gap: 10px; }
+.photo {
+  width: 48px; height: 58px; flex-shrink: 0;
+  border-radius: 10px; background: #26372b;
+  display: grid; place-items: center; font-size: 23px;
+}
+.info { flex: 1; min-width: 0; }
+.name { font-size: 14px; font-weight: 750; overflow-wrap: anywhere; }
+.meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.quantity { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+.qtybtn {
+  width: 32px; height: 36px; border-radius: 9px;
+  border: 1px solid var(--line); background: #222b24;
+  color: #a6efbd; font-size: 19px;
+}
+.qty {
+  width: 43px; padding: 8px 2px; text-align: center;
+  border-radius: 8px; border: 1px solid var(--line);
+  background: #111713; color: var(--text); font-weight: 800;
+}
+.deletebtn {
+  background: #321e1c; color: #ffaaa2;
+  border: 1px solid #60332f; border-radius: 9px;
+  padding: 9px; font-size: 12px; font-weight: 750;
+}
+.addrow { display: flex; gap: 8px; }
+.addrow input { min-width: 0; flex: 1; }
+.checklist { display: grid; gap: 9px; }
+.checkrow { display: flex; align-items: center; gap: 10px; }
+.checkrow input { width: 22px; height: 22px; accent-color: var(--green); }
+.checkname { flex: 1; font-weight: 750; }
+.checkqty { color: #a6efbd; background: #203b2a; padding: 6px 9px; border-radius: 8px; font-weight: 800; }
+.done .checkname { text-decoration: line-through; color: var(--muted); }
+.small { font-size: 12px; color: var(--muted); }
+.empty { text-align: center; padding: 25px; color: var(--muted); }
+.hide { display: none !important; }
+footer { text-align: center; color: var(--muted); font-size: 11px; margin-top: 24px; }
+@media(max-width:390px) {
+  .product { flex-wrap: wrap; }
+  .quantity { width: 100%; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Cigarette Restock</div>
+  <div class="sub">Your daily shelf checklist</div>
+</header>
 
-html = html.replace(
-':root{--green:#176b3a;--green2:#25884d;--lime:#d9f99d;--bg:#f3f7f2;--card:#fff;--text:#17251b;--muted:#6b786f;--line:#e1e9e1;--red:#b42318}',
-':root{color-scheme:dark;--green:#36a765;--green2:#25884d;--lime:#d9f99d;--bg:#101512;--card:#191f1b;--text:#edf5ee;--muted:#9aa99d;--line:#303b33;--red:#ff8279}'
-)
-html = html.replace(
-'header{background:linear-gradient(135deg,#12552e,#25884d);color:white;',
-'header{background:linear-gradient(135deg,#102f1d,#176b3a);color:white;'
-)
-html = html.replace(
-'.pill{background:#ffffff20;border:1px solid #ffffff35;',
-'.pill{background:#ffffff14;border:1px solid #ffffff30;'
-)
-html = html.replace(
-'.secondary{background:#e3f2e6;color:var(--green)}.ghost{background:white;border:1px solid var(--line);color:var(--text)}',
-'.secondary{background:#203b2a;color:#a6efbd}.ghost{background:#191f1b;border:1px solid var(--line);color:var(--text)}'
-)
-html = html.replace(
-'.search{width:100%;padding:14px 14px 14px 42px;border:1px solid var(--line);border-radius:14px;font:inherit;background:white;outline-color:var(--green)}',
-'.search{width:100%;padding:14px 14px 14px 42px;border:1px solid var(--line);border-radius:14px;font:inherit;background:#191f1b;color:var(--text);outline-color:var(--green)}'
-)
-html = html.replace(
-'.photo{width:56px;height:66px;border-radius:11px;background:linear-gradient(145deg,#e6eee6,#f8faf7);',
-'.photo{width:56px;height:66px;border-radius:11px;background:linear-gradient(145deg,#26372b,#1b241e);'
-)
-html = html.replace(
-'.qtybtn{width:34px;height:36px;border:1px solid var(--line);background:#f8faf8;border-radius:10px;',
-'.qtybtn{width:34px;height:36px;border:1px solid var(--line);background:#222b24;border-radius:10px;'
-)
-html = html.replace(
-'.qty{width:42px;text-align:center;font-size:16px;font-weight:800;border:1px solid var(--line);border-radius:9px;padding:8px 2px;background:white;outline-color:var(--green);',
-'.qty{width:42px;text-align:center;font-size:16px;font-weight:800;border:1px solid var(--line);border-radius:9px;padding:8px 2px;background:#111713;color:var(--text);outline-color:var(--green);'
-)
-html = html.replace(
-'.addrow input{min-width:0;flex:1;padding:12px;border:1px solid var(--line);border-radius:12px;font:inherit;background:white}',
-'.addrow input{min-width:0;flex:1;padding:12px;border:1px solid var(--line);border-radius:12px;font:inherit;background:#191f1b;color:var(--text)}'
-)
-html = html.replace(
-'.empty{padding:28px 16px;text-align:center;color:var(--muted);background:white;border:1px dashed #cbd8cc;',
-'.empty{padding:28px 16px;text-align:center;color:var(--muted);background:#191f1b;border:1px dashed #39463c;'
-)
-html = html.replace(
-'.checkrow{display:flex;align-items:center;gap:11px;padding:13px;background:white;border:1px solid var(--line);',
-'.checkrow{display:flex;align-items:center;gap:11px;padding:13px;background:#191f1b;border:1px solid var(--line);'
-)
-html = html.replace(
-'.checkrow .checkqty{font-weight:850;background:#e8f5e9;color:var(--green);',
-'.checkrow .checkqty{font-weight:850;background:#203b2a;color:#a6efbd;'
-)
-html = html.replace(
-'.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#17251b;color:white;',
-'.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#eaf5ec;color:#17251b;'
-)
+<main>
+  <div class="stats">
+    <div class="stat"><span>Products needed</span><strong id="productCount">0</strong></div>
+    <div class="stat"><span>Total packs</span><strong id="packCount">0</strong></div>
+  </div>
 
-# Add delete button styling
-html = html.replace(
-'.qty::-webkit-inner-spin-button,.qty::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}',
-'.qty::-webkit-inner-spin-button,.qty::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.deletebtn{border:1px solid #60332f;background:#321e1c;color:#ffaaa2;border-radius:10px;padding:8px 9px;font-size:12px;font-weight:750;cursor:pointer}.producttools{display:flex;align-items:center;gap:7px}'
-)
+  <div class="actions" id="mainActions">
+    <button class="btn primary" id="checkBtn">✓ Check list</button>
+    <button class="btn ghost" id="clearBtn">Clear quantities</button>
+  </div>
 
-# Add delete button per product and bind click handlers
-html = html.replace(
-'<button class="qtybtn" aria-label="Increase ${escapeHtml(p.name)}" data-inc="${p.id}">＋</button></div></article>',
-'<button class="qtybtn" aria-label="Increase ${escapeHtml(p.name)}" data-inc="${p.id}">＋</button><button class="deletebtn" data-delete="${p.id}" aria-label="Delete ${escapeHtml(p.name)}">Delete</button></div></article>'
-)
-html = html.replace(
-'$("products").querySelectorAll("[data-qty]").forEach(inp=>inp.onchange=()=>{let p=catalog.find(x=>x.id===inp.dataset.qty);p.qty=Math.max(0,Math.min(9999,parseInt(inp.value||"0",10)||0));save();renderProducts()});',
-'$("products").querySelectorAll("[data-qty]").forEach(inp=>inp.onchange=()=>{let p=catalog.find(x=>x.id===inp.dataset.qty);p.qty=Math.max(0,Math.min(9999,parseInt(inp.value||"0",10)||0));save();renderProducts()});\\n $("products").querySelectorAll("[data-delete]").forEach(b=>b.onclick=()=>{const p=catalog.find(x=>x.id===b.dataset.delete);if(!p)return;if(confirm(`Delete "${p.name}" from your catalog?`)){catalog=catalog.filter(x=>x.id!==p.id);collected=collected.filter(id=>id!==p.id);save();renderProducts();showToast("Cigarette deleted from your catalog.")}});'
-)
+  <section id="editView">
+    <input class="search" id="search" placeholder="Search cigarettes...">
+    <h2>Cigarette catalog</h2>
+    <div class="products" id="products"></div>
 
-path.write_text(html, encoding="utf-8")
-print(f"Updated: {path} ({path.stat().st_size:,} bytes)")
+    <h2>Add a cigarette</h2>
+    <div class="addrow">
+      <input id="newName" placeholder="Enter cigarette name" maxlength="70">
+      <button class="btn secondary" id="addBtn">+ Add</button>
+    </div>
+  </section>
+
+  <section id="checkView" class="hide">
+    <h2>Today's restock list</h2>
+    <p class="small">Compare with the storage paper, then tick products as you collect them.</p>
+    <p class="small" id="progress"></p>
+    <div id="checklist" class="checklist"></div>
+    <div class="actions" style="margin-top:15px">
+      <button class="btn ghost" id="backBtn">← Edit list</button>
+      <button class="btn primary" id="finishBtn">Finish day</button>
+    </div>
+  </section>
+
+  <footer>Your catalog and quantities are saved on this device.</footer>
+</main>
+
+<script>
+const starterNames = [
+  "Forest Mix",
+  "Crafted Gold",
+  "Soho Night Blue",
+  "Aqua Blue"
+];
+
+let catalog;
+try {
+  catalog = JSON.parse(localStorage.getItem("restock_catalog_v1"));
+} catch {
+  catalog = null;
+}
+
+if (!Array.isArray(catalog)) {
+  catalog = starterNames.map((name, i) => ({
+    id: "p" + (i + 1), name, qty: 0
+  }));
+}
+
+let collected = [];
+try {
+  collected = JSON.parse(localStorage.getItem("restock_collected_v1")) || [];
+} catch {
+  collected = [];
+}
+
+const $ = id => document.getElementById(id);
+
+function save() {
+  localStorage.setItem("restock_catalog_v1", JSON.stringify(catalog));
+  localStorage.setItem("restock_collected_v1", JSON.stringify(collected));
+  renderStats();
+}
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;",
+    '"':"&quot;", "'":"&#39;"
+  }[c]));
+}
+
+function renderStats() {
+  $("productCount").textContent =
+    catalog.filter(p => p.qty > 0).length;
+  $("packCount").textContent =
+    catalog.reduce((sum, p) => sum + (Number(p.qty) || 0), 0);
+}
+
+function changeQty(id, amount) {
+  const p = catalog.find(x => x.id === id);
+  if (!p) return;
+  p.qty = Math.max(0, Math.min(9999, (Number(p.qty) || 0) + amount));
+  save();
+  renderProducts();
+}
+
+function deleteProduct(id) {
+  const p = catalog.find(x => x.id === id);
+  if (!p) return;
+
+  if (confirm('Delete "' + p.name + '" from your catalog?')) {
+    catalog = catalog.filter(x => x.id !== id);
+    collected = collected.filter(x => x !== id);
+    save();
+    renderProducts();
+  }
+}
+
+function renderProducts() {
+  const q = $("search").value.trim().toLowerCase();
+  const list = catalog.filter(p => p.name.toLowerCase().includes(q));
+
+  $("products").innerHTML = list.length ? list.map(p => `
+    <article class="product">
+      <div class="photo">📦</div>
+      <div class="info">
+        <div class="name">${esc(p.name)}</div>
+        <div class="meta">Packs missing today</div>
+      </div>
+      <div class="quantity">
+        <button class="qtybtn" data-dec="${p.id}">−</button>
+        <input class="qty" type="number" min="0" max="9999"
+          inputmode="numeric" aria-label="Quantity"
+          data-qty="${p.id}" value="${p.qty}">
+        <button class="qtybtn" data-inc="${p.id}">+</button>
+        <button class="deletebtn" data-delete="${p.id}">Delete</button>
+      </div>
+    </article>
+  `).join("") : `<div class="empty">No cigarettes found.</div>`;
+
+  $("products").querySelectorAll("[data-dec]").forEach(b =>
+    b.onclick = () => changeQty(b.dataset.dec, -1));
+
+  $("products").querySelectorAll("[data-inc]").forEach(b =>
+    b.onclick = () => changeQty(b.dataset.inc, 1));
+
+  $("products").querySelectorAll("[data-delete]").forEach(b =>
+    b.onclick = () => deleteProduct(b.dataset.delete));
+
+  $("products").querySelectorAll("[data-qty]").forEach(input => {
+    input.onchange = () => {
+      const p = catalog.find(x => x.id === input.dataset.qty);
+      if (!p) return;
+      p.qty = Math.max(0, Math.min(9999, parseInt(input.value, 10) || 0));
+      save();
+      renderProducts();
+    };
+  });
+
+  renderStats();
+}
+
+function showView(view) {
+  $("editView").classList.toggle("hide", view !== "edit");
+  $("checkView").classList.toggle("hide", view !== "check");
+  $("mainActions").classList.toggle("hide", view !== "edit");
+  window.scrollTo({top: 0, behavior: "smooth"});
+}
+
+function renderChecklist() {
+  const list = catalog.filter(p => p.qty > 0);
+
+  $("checklist").innerHTML = list.length ? list.map(p => `
+    <label class="checkrow ${collected.includes(p.id) ? "done" : ""}">
+      <input type="checkbox" data-collected="${p.id}"
+        ${collected.includes(p.id) ? "checked" : ""}>
+      <span class="checkname">${esc(p.name)}</span>
+      <span class="checkqty">× ${p.qty}</span>
+    </label>
+  `).join("") : `<div class="empty">No quantities entered. Go back and add amounts.</div>`;
+
+  $("checklist").querySelectorAll("[data-collected]").forEach(input => {
+    input.onchange = () => {
+      if (input.checked && !collected.includes(input.dataset.collected)) {
+        collected.push(input.dataset.collected);
+      } else {
+        collected = collected.filter(id => id !== input.dataset.collected);
+      }
+      save();
+      renderChecklist();
+    };
+  });
+
+  $("progress").textContent =
+    `${list.filter(p => collected.includes(p.id)).length} of ${list.length} collected`;
+}
+
+$("search").addEventListener("input", renderProducts);
+
+$("addBtn").onclick = () => {
+  const name = $("newName").value.trim();
+  if (!name) {
+    alert("Enter a cigarette name first.");
+    return;
+  }
+  if (catalog.some(p => p.name.toLowerCase() === name.toLowerCase())) {
+    alert("This cigarette is already in your catalog.");
+    return;
+  }
+
+  catalog.push({
+    id: "p" + Date.now() + Math.random().toString(16).slice(2, 6),
+    name, qty: 0
+  });
+
+  save();
+  $("newName").value = "";
+  $("search").value = "";
+  renderProducts();
+};
+
+$("newName").addEventListener("keydown", e => {
+  if (e.key === "Enter") $("addBtn").click();
+});
+
+$("checkBtn").onclick = () => {
+  collected = [];
+  save();
+  renderChecklist();
+  showView("check");
+};
+
+$("backBtn").onclick = () => showView("edit");
+
+$("clearBtn").onclick = () => {
+  if (confirm("Clear all quantities for a new morning? Your catalog will stay saved.")) {
+    catalog.forEach(p => p.qty = 0);
+    collected = [];
+    save();
+    renderProducts();
+  }
+};
+
+$("finishBtn").onclick = () => {
+  if (confirm("Finish today's restock and reset quantities for tomorrow?")) {
+    catalog.forEach(p => p.qty = 0);
+    collected = [];
+    save();
+    renderProducts();
+    showView("edit");
+  }
+};
+
+renderProducts();
+</script>
+</body>
+</html>
