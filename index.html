@@ -4,128 +4,348 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Restock Checklist</title>
+<meta name="theme-color" content="#0b1018">
+<title>StockPilot — Restock Dashboard</title>
 <style>
 :root {
-  --bg:#101216; --panel:#1b1f27; --panel2:#242a34;
-  --text:#f4f5f7; --muted:#a9b0bd; --accent:#64d9a0;
-  --danger:#ff6b6b; --border:#343b47;
+  --bg:#0b1018;
+  --panel:#131c28;
+  --panel2:#1b2735;
+  --border:#28374a;
+  --text:#f2f6fc;
+  --muted:#94a5b9;
+  --accent:#70e0b0;
+  --blue:#83b8ff;
+  --red:#ff8d97;
+  --radius:18px;
 }
-* { box-sizing:border-box; }
+* {box-sizing:border-box}
 body {
-  margin:0; padding:14px; background:var(--bg); color:var(--text);
-  font-family:Arial,sans-serif;
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+  font-size:15px;line-height:1.45;
 }
-.container { max-width:800px; margin:auto; }
-h1 { font-size:26px; margin:8px 0; }
-h2 { font-size:20px; margin:0 0 8px; }
-p { line-height:1.45; }
-.muted { color:var(--muted); font-size:14px; }
-.panel {
-  background:var(--panel); border:1px solid var(--border);
-  border-radius:14px; padding:15px; margin-top:15px;
+button,input,select {font:inherit}
+button {cursor:pointer;transition:transform .12s,filter .12s}
+button:active {transform:scale(.97)}
+button:focus-visible,input:focus-visible,select:focus-visible {
+  outline:2px solid var(--accent);outline-offset:2px;
 }
-input,button { font:inherit; border-radius:9px; }
-input {
-  width:100%; padding:12px; background:#11151b; color:var(--text);
-  border:1px solid var(--border); min-width:0;
+.app {max-width:920px;margin:auto;padding:18px 14px 36px}
+.header {
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:8px 2px 20px;
 }
-button { padding:11px 13px; border:0; cursor:pointer; font-weight:bold; }
-.primary { background:var(--accent); color:#102219; }
-.secondary { background:var(--panel2); color:var(--text); border:1px solid var(--border); }
-.danger { background:#482326; color:#ffb5b5; border:1px solid #74383d; }
-.add-row { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; }
+.brand {display:flex;align-items:center;gap:12px}
+.logo {
+  width:48px;height:48px;display:grid;place-items:center;
+  background:linear-gradient(145deg,#70e0b0,#3eaa89);
+  color:#092219;border-radius:15px;font-size:25px;font-weight:900;
+}
+h1 {font-size:25px;letter-spacing:-.8px;margin:0}
+.tagline {color:var(--muted);font-size:13px;margin-top:3px}
+.today {
+  color:var(--muted);font-size:12px;text-align:right;
+}
+.eyebrow {
+  color:var(--accent);font-size:11px;font-weight:800;
+  letter-spacing:1.5px;text-transform:uppercase;
+}
+h2 {font-size:18px;letter-spacing:-.3px;margin:0 0 6px}
+h3 {font-size:15px;margin:0}
+p {margin:5px 0}
+.muted {color:var(--muted);font-size:13px}
+.card {
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:var(--radius);padding:17px;margin-bottom:14px;
+}
+.hero {
+  background:linear-gradient(125deg,#17352f,#13252c 65%,#172338);
+  border-color:#285448;padding:21px;
+}
+.hero-top {
+  display:flex;justify-content:space-between;gap:15px;align-items:flex-start;
+}
+.hero h2 {font-size:23px;margin-top:6px}
+.hero p {color:#c2d7d2;font-size:13px;max-width:440px}
+.hero-icon {font-size:32px}
+.stats {
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;margin-top:17px;
+}
+.stat {
+  padding:13px;background:#0d1e1b88;border:1px solid #ffffff12;
+  border-radius:13px;min-width:0;
+}
+.stat-value {font-size:25px;font-weight:800;letter-spacing:-.6px}
+.stat-label {color:#b3c9c4;font-size:11px;margin-top:2px}
+.progress-track {
+  width:100%;height:8px;border-radius:99px;background:#293746;
+  overflow:hidden;margin:13px 0 7px;
+}
+.progress-fill {
+  height:100%;width:0%;background:var(--accent);
+  border-radius:99px;transition:width .2s;
+}
+.progress-caption {
+  display:flex;justify-content:space-between;gap:8px;
+  color:var(--muted);font-size:12px;
+}
 .tabs {
-  display:grid; grid-template-columns:1fr 1fr; gap:8px;
-  position:sticky; top:0; z-index:10; background:var(--bg);
-  padding:10px 0; margin-top:8px;
+  display:grid;grid-template-columns:1fr 1fr;gap:7px;
+  padding:6px;background:#111923;border:1px solid var(--border);
+  border-radius:15px;margin:18px 0;position:sticky;top:0;z-index:10;
 }
 .tab {
-  background:var(--panel2); color:var(--muted);
-  border:1px solid var(--border); padding:14px 8px;
+  border:0;border-radius:10px;padding:13px 8px;
+  color:var(--muted);background:transparent;font-weight:750;
 }
-.tab.active { background:var(--accent); color:#102219; border-color:var(--accent); }
-.view { display:none; }
-.view.active { display:block; }
+.tab.active {background:var(--accent);color:#0b2118}
+.tab-count {
+  display:inline-grid;place-items:center;min-width:22px;height:22px;
+  padding:0 5px;border-radius:99px;background:#283a47;
+  color:white;font-size:11px;margin-left:4px;
+}
+.tab.active .tab-count {background:#b5f5d9;color:#102c21}
+.view {display:none}
+.view.active {display:block}
+.section-head {
+  display:flex;justify-content:space-between;align-items:flex-start;
+  gap:12px;margin-bottom:15px;
+}
+.section-head p {color:var(--muted);font-size:13px}
+.pill {
+  padding:6px 9px;background:var(--panel2);border:1px solid var(--border);
+  border-radius:99px;color:var(--muted);font-size:11px;white-space:nowrap;
+}
+.add-row {
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;
+  margin-top:13px;
+}
+input,select {
+  min-width:0;width:100%;padding:12px;
+  background:#0c131d;color:var(--text);
+  border:1px solid var(--border);border-radius:11px;
+}
+input::placeholder {color:#718198}
+.btn {
+  border:1px solid transparent;border-radius:11px;
+  padding:11px 14px;font-weight:750;
+}
+.btn-primary {background:var(--accent);color:#0b2118}
+.btn-secondary {background:var(--panel2);border-color:var(--border);color:var(--text)}
+.btn-danger {background:#392128;border-color:#66333e;color:#ffb7be}
+.btn-small {font-size:12px;padding:9px 11px}
+.tools {
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(110px,.55fr);
+  gap:8px;margin-bottom:12px;
+}
+.filters {display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}
+.filter {
+  border:1px solid var(--border);border-radius:99px;padding:8px 12px;
+  background:var(--panel2);color:var(--muted);font-size:12px;font-weight:700;
+}
+.filter.active {border-color:var(--accent);color:var(--accent);background:#163128}
+.list {margin-top:4px}
 .item {
-  display:grid; grid-template-columns:minmax(0,1fr) auto;
-  gap:10px; align-items:center; padding:13px 0;
+  display:grid;grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;gap:12px;padding:14px 0;
   border-bottom:1px solid var(--border);
 }
-.item:last-child { border-bottom:0; }
-.item-name { font-weight:bold; overflow-wrap:anywhere; }
-.item-sub { color:var(--muted); font-size:13px; margin-top:5px; }
-.quantity-control { display:flex; gap:5px; align-items:center; }
-.quantity-control button { width:34px; height:39px; padding:0; font-size:19px; }
-.quantity-input { width:48px; padding:7px 3px; height:39px; text-align:center; }
-.delete-button { grid-column:1/-1; justify-self:start; font-size:12px; }
-.pickup-item {
-  display:flex; justify-content:space-between; align-items:center;
-  gap:12px; padding:14px 0; border-bottom:1px solid var(--border);
+.item:last-child {border-bottom:0}
+.item-name {font-weight:750;overflow-wrap:anywhere}
+.item-sub {color:var(--muted);font-size:12px;margin-top:4px}
+.qty-control {display:flex;align-items:center;gap:5px}
+.qty-btn {
+  width:35px;height:38px;padding:0;border-radius:10px;
+  background:var(--panel2);border:1px solid var(--border);
+  color:var(--text);font-size:20px;
 }
-.pickup-item:last-child { border-bottom:0; }
-.pickup-info { min-width:0; }
-.pickup-name { font-weight:bold; overflow-wrap:anywhere; }
-.pickup-qty { color:var(--muted); font-size:14px; margin-top:5px; }
-.picked-button { background:var(--accent); color:#102219; flex-shrink:0; }
-.empty { color:var(--muted); padding:16px 0; line-height:1.5; }
-.actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:15px; }
-.progress { color:var(--muted); font-size:14px; margin-bottom:0; }
-@media(min-width:600px) {
-  .item { grid-template-columns:minmax(0,1fr) auto auto; }
-  .delete-button { grid-column:auto; }
-  .quantity-input { width:60px; }
+.qty-input {
+  width:53px;text-align:center;padding:8px 2px;height:38px;
+  font-weight:800;font-size:15px;
+}
+.item-actions {
+  grid-column:1/-1;display:flex;gap:7px;align-items:center;
+}
+.pickup-item {
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;padding:15px 0;border-bottom:1px solid var(--border);
+}
+.pickup-item:last-child {border-bottom:0}
+.pickup-name {font-weight:750;overflow-wrap:anywhere}
+.pickup-qty {font-size:12px;color:var(--muted);margin-top:4px}
+.pickup-btn {
+  flex-shrink:0;background:var(--accent);color:#0b2118;
+  border:0;border-radius:11px;padding:11px 12px;font-weight:800;font-size:12px;
+}
+.empty {
+  padding:28px 12px;text-align:center;color:var(--muted);font-size:13px;
+}
+.empty-icon {font-size:29px;margin-bottom:8px}
+.actions {display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.notice {
+  padding:11px 12px;background:#182432;border:1px solid var(--border);
+  border-radius:11px;color:var(--muted);font-size:12px;margin-top:12px;
+}
+.undo-bar {
+  display:none;align-items:center;justify-content:space-between;gap:10px;
+  background:#1b2b38;border:1px solid #35516a;border-radius:12px;
+  padding:11px 12px;margin-bottom:12px;font-size:12px;
+}
+.undo-bar.show {display:flex}
+.undo-bar span {color:#c5d6e6}
+.footer {
+  color:#687b90;font-size:11px;text-align:center;padding:12px 4px 0;
+}
+@media(min-width:650px) {
+  .app {padding:24px 20px 40px}
+  .stats {max-width:550px}
+  .hero {padding:25px}
+  .item {grid-template-columns:minmax(0,1fr) auto auto}
+  .item-actions {grid-column:auto}
+}
+@media(max-width:390px) {
+  .app {padding:12px 10px 28px}
+  h1 {font-size:22px}
+  .logo {width:42px;height:42px}
+  .card {padding:13px}
+  .stat {padding:10px}
+  .stat-value {font-size:21px}
+  .pickup-item {align-items:flex-start}
+  .pickup-btn {padding:10px 8px}
 }
 </style>
 </head>
 <body>
-<div class="container">
-  <h1>📦 Restock Checklist</h1>
-  <p class="muted">Enter quantities, then switch to your pick-up checklist.</p>
+<div class="app">
 
-  <section class="panel">
-    <h2>➕ Add a cigarette</h2>
-    <p class="muted">Previously used names will be suggested as you type.</p>
+  <header class="header">
+    <div class="brand">
+      <div class="logo">S</div>
+      <div>
+        <h1>StockPilot</h1>
+        <div class="tagline">Your daily restock workspace</div>
+      </div>
+    </div>
+    <div class="today" id="todayLabel"></div>
+  </header>
+
+  <section class="card hero">
+    <div class="hero-top">
+      <div>
+        <div class="eyebrow">Daily overview</div>
+        <h2 id="heroTitle">Ready to restock?</h2>
+        <p id="heroMessage">Set your quantities, then work through your pick-up list.</p>
+      </div>
+      <div class="hero-icon">📦</div>
+    </div>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value" id="statRemaining">0</div>
+        <div class="stat-label">LEFT TO PICK UP</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="statPicked">0</div>
+        <div class="stat-label">PICKED UP</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="statPacks">0</div>
+        <div class="stat-label">PACKS REMAINING</div>
+      </div>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-caption">
+      <span id="progressLabel">Your progress</span>
+      <span id="progressPercent">0%</span>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="eyebrow">Quick add</div>
+    <h2 style="margin-top:5px">Add to your catalog</h2>
+    <p class="muted">Type a name or choose a previous suggestion.</p>
     <div class="add-row">
-      <input id="newName" list="nameSuggestions" placeholder="Cigarette name" autocomplete="off">
+      <input id="newName" list="nameSuggestions" placeholder="Enter cigarette name" autocomplete="off">
       <datalist id="nameSuggestions"></datalist>
-      <button class="primary" id="addButton">Add</button>
+      <button class="btn btn-primary" id="addButton">＋ Add</button>
     </div>
   </section>
 
   <nav class="tabs">
-    <button class="tab active" id="quantitiesTab" data-view="quantitiesView">📋 Quantities</button>
-    <button class="tab" id="pickupTab" data-view="pickupView">🛒 Pick-up List <span id="remainingBadge"></span></button>
+    <button class="tab active" data-view="quantitiesView">
+      ☷ Quantities <span class="tab-count" id="catalogCount">0</span>
+    </button>
+    <button class="tab" data-view="pickupView">
+      ✓ Pick-up <span class="tab-count" id="remainingBadge">0</span>
+    </button>
   </nav>
 
   <main>
     <section class="view active" id="quantitiesView">
-      <div class="panel">
-        <h2>📋 Cigarette quantities</h2>
-        <p class="muted">Set the amount you need. Cigarettes with quantities above zero appear in the Pick-up List tab.</p>
-        <input id="searchInput" type="search" placeholder="🔍 Search cigarettes...">
-        <div id="catalogList"></div>
-        <div class="actions">
-          <button class="danger" id="deleteAllButton">Delete all cigarettes</button>
+      <div class="card">
+        <div class="section-head">
+          <div>
+            <h2>Your catalog</h2>
+            <p>Enter how many you need for this shift.</p>
+          </div>
+          <span class="pill" id="neededCount">0 needed</span>
         </div>
-        <p class="muted">Deleting a cigarette keeps its name in your saved suggestions.</p>
+
+        <div class="tools">
+          <input id="searchInput" type="search" placeholder="⌕ Search names...">
+          <select id="sortSelect" aria-label="Sort catalog">
+            <option value="custom">Default order</option>
+            <option value="az">Name A–Z</option>
+            <option value="za">Name Z–A</option>
+            <option value="qty">Quantity: high first</option>
+          </select>
+        </div>
+
+        <div class="filters">
+          <button class="filter active" data-filter="all">All items</button>
+          <button class="filter" data-filter="needed">Quantity above 0</button>
+          <button class="filter" data-filter="zero">Quantity is 0</button>
+        </div>
+
+        <div class="list" id="catalogList"></div>
+
+        <div class="actions">
+          <button class="btn btn-danger btn-small" id="deleteAllButton">Delete entire catalog</button>
+        </div>
+        <div class="notice">Deleted names remain available as suggestions. Your catalog is saved in this browser.</div>
       </div>
     </section>
 
     <section class="view" id="pickupView">
-      <div class="panel">
-        <h2>🛒 Cigarettes to pick up</h2>
-        <p class="muted">Tap “✓ Picked Up” when you have collected the cigarette. It will disappear from this tab, while its quantity stays in the first tab.</p>
+      <div class="card">
+        <div class="section-head">
+          <div>
+            <h2>Pick-up checklist</h2>
+            <p>Check each item off when you collect it.</p>
+          </div>
+          <span class="pill" id="pickupStatus">In progress</span>
+        </div>
+
+        <div class="undo-bar" id="undoBar">
+          <span id="undoText">Last item picked up</span>
+          <button class="btn btn-secondary btn-small" id="undoButton">↶ Undo</button>
+        </div>
+
         <div id="pickupList"></div>
-        <p class="progress" id="progressText"></p>
       </div>
-      <div class="panel">
-        <h2>🌙 Finish the day</h2>
-        <p class="muted">Reset all quantities and the pick-up checklist for your next shift. Your active cigarette names and saved suggestions will remain.</p>
-        <button class="primary" id="finishDayButton">Finish day and reset</button>
+
+      <div class="card">
+        <h2>Finish your shift</h2>
+        <p class="muted">Reset quantities and check-offs for the next day. Your catalog and saved name suggestions stay in place.</p>
+        <button class="btn btn-primary" id="finishDayButton">Finish day & reset</button>
       </div>
     </section>
   </main>
+
+  <div class="footer">StockPilot · Your work stays saved in this browser</div>
 </div>
 
 <script>
@@ -137,7 +357,9 @@ function loadJSON(key, fallback) {
   try {
     const value = localStorage.getItem(key);
     return value === null ? fallback : JSON.parse(value);
-  } catch (e) { return fallback; }
+  } catch (e) {
+    return fallback;
+  }
 }
 function makeId() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2,9);
@@ -146,6 +368,9 @@ function makeId() {
 let catalog = loadJSON(CATALOG_KEY, null);
 let nameHistory = loadJSON(HISTORY_KEY, []);
 let picked = loadJSON(PICKED_KEY, []);
+let lastPicked = null;
+let currentFilter = "all";
+
 if (!Array.isArray(nameHistory)) nameHistory = [];
 if (!Array.isArray(picked)) picked = [];
 
@@ -155,9 +380,12 @@ if (!Array.isArray(catalog)) {
 }
 catalog.forEach(item => {
   if (!item.id) item.id = makeId();
-  if (!Number.isFinite(item.quantity)) item.quantity = 0;
+  if (typeof item.name !== "string") item.name = String(item.name || "Unnamed");
+  if (!Number.isFinite(item.quantity) || item.quantity < 0) item.quantity = 0;
+  item.quantity = Math.floor(item.quantity);
   rememberName(item.name);
 });
+picked = picked.filter(id => catalog.some(item => item.id === id));
 saveAll();
 
 function rememberName(name) {
@@ -172,40 +400,58 @@ function saveAll() {
   localStorage.setItem(PICKED_KEY, JSON.stringify(picked));
 }
 function showTab(viewId) {
-  document.querySelectorAll(".view").forEach(el =>
-    el.classList.toggle("active", el.id === viewId)
+  document.querySelectorAll(".view").forEach(view =>
+    view.classList.toggle("active", view.id === viewId)
   );
-  document.querySelectorAll(".tab").forEach(el =>
-    el.classList.toggle("active", el.dataset.view === viewId)
+  document.querySelectorAll(".tab").forEach(tab =>
+    tab.classList.toggle("active", tab.dataset.view === viewId)
   );
 }
-document.querySelectorAll(".tab").forEach(button => {
-  button.addEventListener("click", () => showTab(button.dataset.view));
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.addEventListener("click", () => showTab(tab.dataset.view));
+});
+document.querySelectorAll(".filter").forEach(button => {
+  button.addEventListener("click", () => {
+    currentFilter = button.dataset.filter;
+    document.querySelectorAll(".filter").forEach(b =>
+      b.classList.toggle("active", b === button)
+    );
+    renderCatalog();
+  });
 });
 
 function renderSuggestions() {
   const input = document.getElementById("newName");
-  const list = document.getElementById("nameSuggestions");
+  const datalist = document.getElementById("nameSuggestions");
   const query = input.value.trim().toLowerCase();
-  list.innerHTML = "";
-  nameHistory.filter(name => name.toLowerCase().includes(query)).forEach(name => {
-    const option = document.createElement("option");
-    option.value = name;
-    list.appendChild(option);
-  });
+  datalist.innerHTML = "";
+  nameHistory
+    .filter(name => name.toLowerCase().includes(query))
+    .forEach(name => {
+      const option = document.createElement("option");
+      option.value = name;
+      datalist.appendChild(option);
+    });
 }
 function addCigarette() {
   const input = document.getElementById("newName");
   const name = input.value.trim();
-  if (!name) { input.focus(); return; }
+  if (!name) {
+    input.focus();
+    return;
+  }
   if (catalog.some(item => item.name.toLowerCase() === name.toLowerCase())) {
-    alert("This cigarette is already in your active list.");
+    alert("This item is already in your catalog.");
     return;
   }
   catalog.push({id:makeId(),name,quantity:0});
   rememberName(name);
   input.value = "";
   document.getElementById("searchInput").value = "";
+  currentFilter = "all";
+  document.querySelectorAll(".filter").forEach(b =>
+    b.classList.toggle("active", b.dataset.filter === "all")
+  );
   saveAll();
   renderAll();
 }
@@ -215,8 +461,8 @@ function changeQuantity(id, value) {
   const quantity = Number(value);
   if (!Number.isFinite(quantity) || quantity < 0) return;
   item.quantity = Math.floor(quantity);
-  // Any quantity change makes this cigarette available to pick up again.
   picked = picked.filter(pickedId => pickedId !== id);
+  lastPicked = null;
   saveAll();
   renderAll();
 }
@@ -225,6 +471,7 @@ function deleteCigarette(id) {
   if (item) rememberName(item.name);
   catalog = catalog.filter(item => item.id !== id);
   picked = picked.filter(pickedId => pickedId !== id);
+  if (lastPicked && lastPicked.id === id) lastPicked = null;
   saveAll();
   renderAll();
 }
@@ -232,124 +479,212 @@ function deleteAllCigarettes() {
   catalog.forEach(item => rememberName(item.name));
   catalog = [];
   picked = [];
+  lastPicked = null;
   saveAll();
   renderAll();
 }
 function markPicked(id) {
-  if (!picked.includes(id)) picked.push(id);
+  const item = catalog.find(item => item.id === id);
+  if (!item || picked.includes(id)) return;
+  lastPicked = {id, name:item.name};
+  picked.push(id);
   saveAll();
   renderAll();
 }
+function undoLastPicked() {
+  if (!lastPicked) return;
+  picked = picked.filter(id => id !== lastPicked.id);
+  lastPicked = null;
+  saveAll();
+  renderAll();
+}
+function finishDay() {
+  catalog.forEach(item => item.quantity = 0);
+  picked = [];
+  lastPicked = null;
+  saveAll();
+  renderAll();
+  showTab("quantitiesView");
+}
+
 function renderCatalog() {
   const container = document.getElementById("catalogList");
   const query = document.getElementById("searchInput").value.trim().toLowerCase();
+  const sort = document.getElementById("sortSelect").value;
+  let items = catalog.filter(item => {
+    if (!item.name.toLowerCase().includes(query)) return false;
+    if (currentFilter === "needed" && item.quantity <= 0) return false;
+    if (currentFilter === "zero" && item.quantity !== 0) return false;
+    return true;
+  });
+
+  if (sort === "az") items.sort((a,b) => a.name.localeCompare(b.name));
+  if (sort === "za") items.sort((a,b) => b.name.localeCompare(a.name));
+  if (sort === "qty") items.sort((a,b) => b.quantity-a.quantity || a.name.localeCompare(b.name));
+
   container.innerHTML = "";
-  const items = catalog.filter(item => item.name.toLowerCase().includes(query));
   if (!items.length) {
-    container.innerHTML = `<div class="empty">${
-      catalog.length ? "No cigarettes match your search." :
-      "Your list is empty. Add a cigarette above."
+    container.innerHTML = `<div class="empty"><div class="empty-icon">📋</div>${
+      catalog.length === 0 ? "Your catalog is empty. Add an item above." :
+      "No items match these filters."
     }</div>`;
     return;
   }
+
   items.forEach(item => {
     const row = document.createElement("div");
     row.className = "item";
+
     const details = document.createElement("div");
     const name = document.createElement("div");
     name.className = "item-name";
     name.textContent = item.name;
     const sub = document.createElement("div");
     sub.className = "item-sub";
-    sub.textContent = item.quantity > 0 ? "Needed: " + item.quantity : "No quantity entered";
-    details.append(name, sub);
+    sub.textContent = item.quantity > 0
+      ? (picked.includes(item.id) ? "✓ Picked up · " : "To collect · ") + item.quantity + " packs"
+      : "No quantity entered";
+    details.append(name,sub);
 
     const control = document.createElement("div");
-    control.className = "quantity-control";
+    control.className = "qty-control";
     const minus = document.createElement("button");
-    minus.className = "secondary";
+    minus.className = "qty-btn";
     minus.textContent = "−";
-    minus.setAttribute("aria-label","Decrease quantity");
-    minus.addEventListener("click", () => changeQuantity(item.id, Math.max(0,item.quantity-1)));
+    minus.setAttribute("aria-label","Decrease " + item.name);
+    minus.addEventListener("click",() =>
+      changeQuantity(item.id,Math.max(0,item.quantity-1))
+    );
 
     const input = document.createElement("input");
-    input.className = "quantity-input";
+    input.className = "qty-input";
     input.type = "number";
     input.min = "0";
     input.step = "1";
     input.inputMode = "numeric";
     input.value = item.quantity;
     input.setAttribute("aria-label",item.name + " quantity");
-    input.addEventListener("change", () => {
+    input.addEventListener("change",() => {
       const value = Number(input.value);
       if (!Number.isFinite(value) || value < 0) {
         input.value = item.quantity;
       } else {
-        changeQuantity(item.id, Math.floor(value));
+        changeQuantity(item.id,Math.floor(value));
       }
     });
 
     const plus = document.createElement("button");
-    plus.className = "secondary";
+    plus.className = "qty-btn";
     plus.textContent = "+";
-    plus.setAttribute("aria-label","Increase quantity");
-    plus.addEventListener("click", () => changeQuantity(item.id,item.quantity+1));
+    plus.setAttribute("aria-label","Increase " + item.name);
+    plus.addEventListener("click",() =>
+      changeQuantity(item.id,item.quantity+1)
+    );
     control.append(minus,input,plus);
 
+    const actions = document.createElement("div");
+    actions.className = "item-actions";
     const del = document.createElement("button");
-    del.className = "danger delete-button";
-    del.textContent = "Delete";
-    del.addEventListener("click", () => deleteCigarette(item.id));
+    del.className = "btn btn-danger btn-small";
+    del.textContent = "Delete item";
+    del.addEventListener("click",() => deleteCigarette(item.id));
+    actions.append(del);
 
-    row.append(details,control,del);
-    container.appendChild(row);
+    row.append(details,control,actions);
+    container.append(row);
   });
 }
+
 function renderPickup() {
   const container = document.getElementById("pickupList");
-  const progress = document.getElementById("progressText");
-  const badge = document.getElementById("remainingBadge");
   container.innerHTML = "";
 
   const needed = catalog.filter(item => item.quantity > 0);
   const remaining = needed.filter(item => !picked.includes(item.id));
   const collected = needed.length - remaining.length;
+  const packsRemaining = remaining.reduce((sum,item) => sum+item.quantity,0);
+  const totalPacks = needed.reduce((sum,item) => sum+item.quantity,0);
+  const percent = needed.length ? Math.round(collected/needed.length*100) : 0;
 
-  badge.textContent = remaining.length ? "(" + remaining.length + ")" : "";
+  document.getElementById("statRemaining").textContent = remaining.length;
+  document.getElementById("statPicked").textContent = collected;
+  document.getElementById("statPacks").textContent = packsRemaining;
+  document.getElementById("catalogCount").textContent = catalog.length;
+  document.getElementById("remainingBadge").textContent = remaining.length;
+  document.getElementById("neededCount").textContent = needed.length + " needed";
+  document.getElementById("progressFill").style.width = percent + "%";
+  document.getElementById("progressPercent").textContent = percent + "%";
+  document.getElementById("progressLabel").textContent =
+    collected + " of " + needed.length + " item types collected";
+  document.getElementById("heroTitle").textContent =
+    needed.length === 0 ? "Ready when you are" :
+    remaining.length === 0 ? "All done!" : "Keep it moving";
+  document.getElementById("heroMessage").textContent =
+    needed.length === 0 ? "Add quantities to prepare today's pick-up list." :
+    remaining.length === 0 ? "Everything on your pick-up list has been checked off." :
+    "You have " + remaining.length + " item type" +
+    (remaining.length === 1 ? "" : "s") + " left to collect.";
+  document.getElementById("pickupStatus").textContent =
+    needed.length === 0 ? "Not started" :
+    remaining.length === 0 ? "Complete" : "In progress";
+
+  const undoBar = document.getElementById("undoBar");
+  undoBar.classList.toggle("show",!!lastPicked);
+  document.getElementById("undoText").textContent = lastPicked
+    ? "Picked up: " + lastPicked.name : "";
 
   if (!remaining.length) {
-    container.innerHTML = `<div class="empty">${
-      needed.length ? "🎉 All cigarettes have been picked up!" :
-      "No cigarettes to pick up yet. Enter quantities in the Quantities tab."
-    }</div>`;
-  } else {
-    remaining.forEach(item => {
-      const row = document.createElement("div");
-      row.className = "pickup-item";
-      const info = document.createElement("div");
-      info.className = "pickup-info";
-      const name = document.createElement("div");
-      name.className = "pickup-name";
-      name.textContent = item.name;
-      const qty = document.createElement("div");
-      qty.className = "pickup-qty";
-      qty.textContent = "Quantity to collect: " + item.quantity;
-      info.append(name,qty);
-
-      const button = document.createElement("button");
-      button.className = "picked-button";
-      button.textContent = "✓ Picked Up";
-      button.addEventListener("click", () => markPicked(item.id));
-      row.append(info,button);
-      container.appendChild(row);
-    });
+    const empty = document.createElement("div");
+    empty.className = "empty";
+    const icon = document.createElement("div");
+    icon.className = "empty-icon";
+    icon.textContent = needed.length ? "🎉" : "🧺";
+    const message = document.createElement("div");
+    message.textContent = needed.length
+      ? "Everything has been picked up!"
+      : "Your list is empty. Add quantities in the Quantities tab.";
+    empty.append(icon,message);
+    container.append(empty);
+    return;
   }
-  progress.textContent = "Picked up: " + collected + " of " + needed.length + " cigarette types.";
+
+  remaining.forEach(item => {
+    const row = document.createElement("div");
+    row.className = "pickup-item";
+    const info = document.createElement("div");
+    info.className = "pickup-info";
+    const name = document.createElement("div");
+    name.className = "pickup-name";
+    name.textContent = item.name;
+    const qty = document.createElement("div");
+    qty.className = "pickup-qty";
+    qty.textContent = "Collect " + item.quantity + " packs";
+    info.append(name,qty);
+
+    const button = document.createElement("button");
+    button.className = "pickup-btn";
+    button.textContent = "✓ Picked Up";
+    button.addEventListener("click",() => markPicked(item.id));
+    row.append(info,button);
+    container.append(row);
+  });
 }
+
 function renderAll() {
   renderCatalog();
   renderPickup();
   renderSuggestions();
+}
+function renderSuggestions() {
+  const input = document.getElementById("newName");
+  const datalist = document.getElementById("nameSuggestions");
+  const query = input.value.trim().toLowerCase();
+  datalist.innerHTML = "";
+  nameHistory.filter(name => name.toLowerCase().includes(query)).forEach(name => {
+    const option = document.createElement("option");
+    option.value = name;
+    datalist.append(option);
+  });
 }
 
 document.getElementById("addButton").addEventListener("click",addCigarette);
@@ -358,14 +693,13 @@ document.getElementById("newName").addEventListener("keydown",event => {
   if (event.key === "Enter") addCigarette();
 });
 document.getElementById("searchInput").addEventListener("input",renderCatalog);
+document.getElementById("sortSelect").addEventListener("change",renderCatalog);
 document.getElementById("deleteAllButton").addEventListener("click",deleteAllCigarettes);
-document.getElementById("finishDayButton").addEventListener("click",() => {
-  catalog.forEach(item => item.quantity = 0);
-  picked = [];
-  saveAll();
-  renderAll();
-  showTab("quantitiesView");
-});
+document.getElementById("undoButton").addEventListener("click",undoLastPicked);
+document.getElementById("finishDayButton").addEventListener("click",finishDay);
+
+document.getElementById("todayLabel").textContent =
+  new Intl.DateTimeFormat(undefined,{weekday:"short",month:"short",day:"numeric"}).format(new Date());
 
 renderAll();
 </script>
