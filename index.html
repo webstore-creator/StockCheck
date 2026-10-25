@@ -3,373 +3,129 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Restock Checklist</title>
-
 <style>
 :root {
-  --bg: #101216;
-  --panel: #1b1f27;
-  --panel2: #242a34;
-  --text: #f4f5f7;
-  --muted: #a9b0bd;
-  --accent: #64d9a0;
-  --danger: #ff6b6b;
-  --border: #343b47;
+  --bg:#101216; --panel:#1b1f27; --panel2:#242a34;
+  --text:#f4f5f7; --muted:#a9b0bd; --accent:#64d9a0;
+  --danger:#ff6b6b; --border:#343b47;
 }
-
-* {
-  box-sizing: border-box;
-}
-
+* { box-sizing:border-box; }
 body {
-  margin: 0;
-  padding: 16px;
-  background: var(--bg);
-  color: var(--text);
-  font-family: Arial, sans-serif;
+  margin:0; padding:14px; background:var(--bg); color:var(--text);
+  font-family:Arial,sans-serif;
 }
-
-.container {
-  width: 100%;
-  max-width: 850px;
-  margin: 0 auto;
-}
-
-h1 {
-  font-size: 27px;
-  margin: 8px 0;
-}
-
-h2 {
-  font-size: 20px;
-  margin: 0 0 8px;
-}
-
-.subtitle {
-  color: var(--muted);
-  margin: 0 0 20px;
-  line-height: 1.5;
-}
-
+.container { max-width:800px; margin:auto; }
+h1 { font-size:26px; margin:8px 0; }
+h2 { font-size:20px; margin:0 0 8px; }
+p { line-height:1.45; }
+.muted { color:var(--muted); font-size:14px; }
 .panel {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 20px;
+  background:var(--panel); border:1px solid var(--border);
+  border-radius:14px; padding:15px; margin-top:15px;
 }
-
-input, button {
-  font: inherit;
-  border-radius: 9px;
-}
-
+input,button { font:inherit; border-radius:9px; }
 input {
-  width: 100%;
-  min-width: 0;
-  padding: 12px;
-  background: #11151b;
-  color: var(--text);
-  border: 1px solid var(--border);
+  width:100%; padding:12px; background:#11151b; color:var(--text);
+  border:1px solid var(--border); min-width:0;
 }
-
-input:focus {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
+button { padding:11px 13px; border:0; cursor:pointer; font-weight:bold; }
+.primary { background:var(--accent); color:#102219; }
+.secondary { background:var(--panel2); color:var(--text); border:1px solid var(--border); }
+.danger { background:#482326; color:#ffb5b5; border:1px solid #74383d; }
+.add-row { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; }
+.tabs {
+  display:grid; grid-template-columns:1fr 1fr; gap:8px;
+  position:sticky; top:0; z-index:10; background:var(--bg);
+  padding:10px 0; margin-top:8px;
 }
-
-button {
-  padding: 11px 13px;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
+.tab {
+  background:var(--panel2); color:var(--muted);
+  border:1px solid var(--border); padding:14px 8px;
 }
-
-button:active {
-  transform: scale(0.98);
-}
-
-.primary {
-  background: var(--accent);
-  color: #102219;
-}
-
-.secondary {
-  background: var(--panel2);
-  color: var(--text);
-  border: 1px solid var(--border);
-}
-
-.danger {
-  background: #482326;
-  color: #ffb5b5;
-  border: 1px solid #74383d;
-}
-
-.add-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 8px;
-  margin-top: 14px;
-}
-
-.search {
-  margin: 14px 0;
-}
-
+.tab.active { background:var(--accent); color:#102219; border-color:var(--accent); }
+.view { display:none; }
+.view.active { display:block; }
 .item {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
-  gap: 10px;
-  align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border);
+  display:grid; grid-template-columns:minmax(0,1fr) auto;
+  gap:10px; align-items:center; padding:13px 0;
+  border-bottom:1px solid var(--border);
 }
-
-.item:last-child {
-  border-bottom: none;
-}
-
-.item-name {
-  font-weight: bold;
-  overflow-wrap: anywhere;
-}
-
-.item-count {
-  color: var(--muted);
-  font-size: 13px;
-  margin-top: 5px;
-}
-
-.quantity-control {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.quantity-control button {
-  width: 38px;
-  height: 40px;
-  padding: 0;
-  font-size: 20px;
-}
-
-.quantity-input {
-  width: 60px;
-  height: 40px;
-  padding: 6px;
-  text-align: center;
-  font-weight: bold;
-}
-
-.delete-button {
-  padding: 9px;
-  font-size: 12px;
-}
-
+.item:last-child { border-bottom:0; }
+.item-name { font-weight:bold; overflow-wrap:anywhere; }
+.item-sub { color:var(--muted); font-size:13px; margin-top:5px; }
+.quantity-control { display:flex; gap:5px; align-items:center; }
+.quantity-control button { width:34px; height:39px; padding:0; font-size:19px; }
+.quantity-input { width:48px; padding:7px 3px; height:39px; text-align:center; }
+.delete-button { grid-column:1/-1; justify-self:start; font-size:12px; }
 .pickup-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 13px 0;
-  border-bottom: 1px solid var(--border);
+  display:flex; justify-content:space-between; align-items:center;
+  gap:12px; padding:14px 0; border-bottom:1px solid var(--border);
 }
-
-.pickup-item:last-child {
-  border-bottom: none;
-}
-
-.pickup-info {
-  min-width: 0;
-}
-
-.pickup-name {
-  font-weight: bold;
-  overflow-wrap: anywhere;
-}
-
-.pickup-quantity {
-  color: var(--muted);
-  font-size: 14px;
-  margin-top: 5px;
-}
-
-.picked-button {
-  background: var(--accent);
-  color: #102219;
-  flex-shrink: 0;
-}
-
-.empty {
-  color: var(--muted);
-  padding: 15px 0;
-  line-height: 1.5;
-}
-
-.section-description {
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.5;
-  margin: 0 0 12px;
-}
-
-.badge {
-  display: inline-block;
-  background: var(--panel2);
-  border: 1px solid var(--border);
-  color: var(--text);
-  border-radius: 20px;
-  padding: 5px 9px;
-  font-size: 12px;
-  margin: 8px 0 0;
-}
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 14px;
-}
-
-.progress {
-  color: var(--muted);
-  font-size: 14px;
-  margin: 12px 0 0;
-}
-
-@media (max-width: 520px) {
-  body {
-    padding: 10px;
-  }
-
-  .panel {
-    padding: 12px;
-  }
-
-  .item {
-    grid-template-columns: minmax(0, 1fr) auto;
-  }
-
-  .delete-button {
-    grid-column: 1 / -1;
-    justify-self: start;
-  }
-
-  .quantity-control {
-    gap: 4px;
-  }
-
-  .quantity-control button {
-    width: 34px;
-    height: 38px;
-  }
-
-  .quantity-input {
-    width: 48px;
-    height: 38px;
-  }
-
-  .pickup-item {
-    align-items: flex-start;
-  }
-
-  .picked-button {
-    padding: 10px;
-    font-size: 12px;
-  }
-
-  h1 {
-    font-size: 24px;
-  }
+.pickup-item:last-child { border-bottom:0; }
+.pickup-info { min-width:0; }
+.pickup-name { font-weight:bold; overflow-wrap:anywhere; }
+.pickup-qty { color:var(--muted); font-size:14px; margin-top:5px; }
+.picked-button { background:var(--accent); color:#102219; flex-shrink:0; }
+.empty { color:var(--muted); padding:16px 0; line-height:1.5; }
+.actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:15px; }
+.progress { color:var(--muted); font-size:14px; margin-bottom:0; }
+@media(min-width:600px) {
+  .item { grid-template-columns:minmax(0,1fr) auto auto; }
+  .delete-button { grid-column:auto; }
+  .quantity-input { width:60px; }
 }
 </style>
 </head>
-
 <body>
 <div class="container">
-
   <h1>📦 Restock Checklist</h1>
-  <p class="subtitle">
-    Enter quantities in the first chart. Your pick-up checklist updates
-    automatically in the second chart.
-  </p>
+  <p class="muted">Enter quantities, then switch to your pick-up checklist.</p>
 
-  <!-- ADD CIGARETTE -->
   <section class="panel">
     <h2>➕ Add a cigarette</h2>
-    <p class="section-description">
-      Start typing a name to see names you've used before.
-    </p>
-
+    <p class="muted">Previously used names will be suggested as you type.</p>
     <div class="add-row">
-      <input
-        id="newName"
-        type="text"
-        placeholder="Cigarette name"
-        list="nameSuggestions"
-        autocomplete="off"
-      >
+      <input id="newName" list="nameSuggestions" placeholder="Cigarette name" autocomplete="off">
       <datalist id="nameSuggestions"></datalist>
       <button class="primary" id="addButton">Add</button>
     </div>
   </section>
 
-  <!-- CHART 1 -->
-  <section class="panel">
-    <h2>📋 Chart 1 — Enter quantities</h2>
-    <p class="section-description">
-      Enter how many packs you need for each cigarette. Only quantities
-      above zero appear in the pick-up chart.
-    </p>
+  <nav class="tabs">
+    <button class="tab active" id="quantitiesTab" data-view="quantitiesView">📋 Quantities</button>
+    <button class="tab" id="pickupTab" data-view="pickupView">🛒 Pick-up List <span id="remainingBadge"></span></button>
+  </nav>
 
-    <input
-      class="search"
-      id="searchInput"
-      type="search"
-      placeholder="🔍 Search cigarettes..."
-    >
+  <main>
+    <section class="view active" id="quantitiesView">
+      <div class="panel">
+        <h2>📋 Cigarette quantities</h2>
+        <p class="muted">Set the amount you need. Cigarettes with quantities above zero appear in the Pick-up List tab.</p>
+        <input id="searchInput" type="search" placeholder="🔍 Search cigarettes...">
+        <div id="catalogList"></div>
+        <div class="actions">
+          <button class="danger" id="deleteAllButton">Delete all cigarettes</button>
+        </div>
+        <p class="muted">Deleting a cigarette keeps its name in your saved suggestions.</p>
+      </div>
+    </section>
 
-    <div id="catalogList"></div>
-
-    <div class="actions">
-      <button class="danger" id="deleteAllButton">
-        Delete all cigarettes
-      </button>
-    </div>
-
-    <p class="section-description">
-      Deleting cigarettes removes them from your active list, but their
-      names remain saved as suggestions.
-    </p>
-  </section>
-
-  <!-- CHART 2 -->
-  <section class="panel">
-    <h2>🛒 Chart 2 — Pick-up checklist</h2>
-    <p class="section-description">
-      When you collect a cigarette from storage, tap “✓ Picked Up”.
-      It will disappear from this chart but remain in Chart 1.
-    </p>
-
-    <div id="pickupList"></div>
-    <p class="progress" id="progressText"></p>
-  </section>
-
-  <!-- DAILY ACTIONS -->
-  <section class="panel">
-    <h2>🌙 Finish the day</h2>
-    <p class="section-description">
-      When your shift is finished, reset the quantities and pick-up
-      checklist for the next day. Your cigarette names will remain saved.
-    </p>
-
-    <button class="primary" id="finishDayButton">
-      Finish day and reset
-    </button>
-  </section>
-
+    <section class="view" id="pickupView">
+      <div class="panel">
+        <h2>🛒 Cigarettes to pick up</h2>
+        <p class="muted">Tap “✓ Picked Up” when you have collected the cigarette. It will disappear from this tab, while its quantity stays in the first tab.</p>
+        <div id="pickupList"></div>
+        <p class="progress" id="progressText"></p>
+      </div>
+      <div class="panel">
+        <h2>🌙 Finish the day</h2>
+        <p class="muted">Reset all quantities and the pick-up checklist for your next shift. Your active cigarette names and saved suggestions will remain.</p>
+        <button class="primary" id="finishDayButton">Finish day and reset</button>
+      </div>
+    </section>
+  </main>
 </div>
 
 <script>
@@ -377,372 +133,239 @@ const CATALOG_KEY = "restock_catalog_v2";
 const HISTORY_KEY = "restock_name_history_v1";
 const PICKED_KEY = "restock_picked_v2";
 
-const starterNames = [
-  "Forest Mix",
-  "Crafted Gold",
-  "Soho Night Blue",
-  "Aqua Blue"
-];
-
-let catalog = loadJSON(CATALOG_KEY, null);
-let nameHistory = loadJSON(HISTORY_KEY, []);
-let picked = loadJSON(PICKED_KEY, []);
-
-if (!Array.isArray(nameHistory)) nameHistory = [];
-if (!Array.isArray(picked)) picked = [];
-
-if (!Array.isArray(catalog)) {
-  catalog = starterNames.map((name, index) => ({
-    id: makeId(),
-    name,
-    quantity: 0
-  }));
-}
-
-// Remember the starter names and names already in the catalog.
-starterNames.forEach(rememberName);
-
-catalog.forEach(item => {
-  if (typeof item.id === "undefined") item.id = makeId();
-  if (typeof item.quantity !== "number") item.quantity = 0;
-  rememberName(item.name);
-});
-
-saveAll();
-
 function loadJSON(key, fallback) {
   try {
     const value = localStorage.getItem(key);
     return value === null ? fallback : JSON.parse(value);
-  } catch (error) {
-    return fallback;
+  } catch (e) { return fallback; }
+}
+function makeId() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2,9);
+}
+
+let catalog = loadJSON(CATALOG_KEY, null);
+let nameHistory = loadJSON(HISTORY_KEY, []);
+let picked = loadJSON(PICKED_KEY, []);
+if (!Array.isArray(nameHistory)) nameHistory = [];
+if (!Array.isArray(picked)) picked = [];
+
+if (!Array.isArray(catalog)) {
+  catalog = ["Forest Mix","Crafted Gold","Soho Night Blue","Aqua Blue"]
+    .map(name => ({id:makeId(),name,quantity:0}));
+}
+catalog.forEach(item => {
+  if (!item.id) item.id = makeId();
+  if (!Number.isFinite(item.quantity)) item.quantity = 0;
+  rememberName(item.name);
+});
+saveAll();
+
+function rememberName(name) {
+  name = String(name || "").trim();
+  if (name && !nameHistory.some(n => n.toLowerCase() === name.toLowerCase())) {
+    nameHistory.push(name);
   }
 }
-
-function makeId() {
-  return Date.now().toString(36) +
-    Math.random().toString(36).slice(2, 9);
-}
-
 function saveAll() {
   localStorage.setItem(CATALOG_KEY, JSON.stringify(catalog));
   localStorage.setItem(HISTORY_KEY, JSON.stringify(nameHistory));
   localStorage.setItem(PICKED_KEY, JSON.stringify(picked));
 }
-
-function rememberName(name) {
-  const cleanName = String(name || "").trim();
-
-  if (!cleanName) return;
-
-  const exists = nameHistory.some(
-    saved => saved.toLowerCase() === cleanName.toLowerCase()
+function showTab(viewId) {
+  document.querySelectorAll(".view").forEach(el =>
+    el.classList.toggle("active", el.id === viewId)
   );
-
-  if (!exists) {
-    nameHistory.push(cleanName);
-  }
+  document.querySelectorAll(".tab").forEach(el =>
+    el.classList.toggle("active", el.dataset.view === viewId)
+  );
 }
-
-function isPicked(id) {
-  return picked.includes(id);
-}
+document.querySelectorAll(".tab").forEach(button => {
+  button.addEventListener("click", () => showTab(button.dataset.view));
+});
 
 function renderSuggestions() {
-  const datalist = document.getElementById("nameSuggestions");
   const input = document.getElementById("newName");
-  const search = input.value.trim().toLowerCase();
-
-  datalist.innerHTML = "";
-
-  nameHistory
-    .filter(name => name.toLowerCase().includes(search))
-    .forEach(name => {
-      const option = document.createElement("option");
-      option.value = name;
-      datalist.appendChild(option);
-    });
+  const list = document.getElementById("nameSuggestions");
+  const query = input.value.trim().toLowerCase();
+  list.innerHTML = "";
+  nameHistory.filter(name => name.toLowerCase().includes(query)).forEach(name => {
+    const option = document.createElement("option");
+    option.value = name;
+    list.appendChild(option);
+  });
 }
-
 function addCigarette() {
   const input = document.getElementById("newName");
   const name = input.value.trim();
-
-  if (!name) {
-    input.focus();
-    return;
-  }
-
-  const existing = catalog.some(
-    item => item.name.toLowerCase() === name.toLowerCase()
-  );
-
-  if (existing) {
+  if (!name) { input.focus(); return; }
+  if (catalog.some(item => item.name.toLowerCase() === name.toLowerCase())) {
     alert("This cigarette is already in your active list.");
     return;
   }
-
-  const item = {
-    id: makeId(),
-    name,
-    quantity: 0
-  };
-
-  catalog.push(item);
+  catalog.push({id:makeId(),name,quantity:0});
   rememberName(name);
-
   input.value = "";
+  document.getElementById("searchInput").value = "";
   saveAll();
   renderAll();
-
-  document.getElementById("searchInput").value = "";
 }
-
-function changeQuantity(id, newQuantity) {
+function changeQuantity(id, value) {
   const item = catalog.find(item => item.id === id);
   if (!item) return;
-
-  const quantity = Number(newQuantity);
-
+  const quantity = Number(value);
   if (!Number.isFinite(quantity) || quantity < 0) return;
-
   item.quantity = Math.floor(quantity);
-
-  // If the quantity changes, make the cigarette available
-  // in the pick-up list again when its quantity is above zero.
-  if (item.quantity > 0) {
-    picked = picked.filter(pickedId => pickedId !== id);
-  } else {
-    picked = picked.filter(pickedId => pickedId !== id);
-  }
-
+  // Any quantity change makes this cigarette available to pick up again.
+  picked = picked.filter(pickedId => pickedId !== id);
   saveAll();
   renderAll();
 }
-
 function deleteCigarette(id) {
   const item = catalog.find(item => item.id === id);
-  if (!item) return;
-
-  // Keep its name in nameHistory, even after deletion.
-  rememberName(item.name);
-
+  if (item) rememberName(item.name);
   catalog = catalog.filter(item => item.id !== id);
   picked = picked.filter(pickedId => pickedId !== id);
-
   saveAll();
   renderAll();
 }
-
 function deleteAllCigarettes() {
-  // Preserve every name in history.
   catalog.forEach(item => rememberName(item.name));
-
   catalog = [];
   picked = [];
-
   saveAll();
   renderAll();
 }
-
 function markPicked(id) {
-  if (!picked.includes(id)) {
-    picked.push(id);
-  }
-
+  if (!picked.includes(id)) picked.push(id);
   saveAll();
   renderAll();
 }
-
 function renderCatalog() {
   const container = document.getElementById("catalogList");
-  const search = document.getElementById("searchInput")
-    .value.trim().toLowerCase();
-
+  const query = document.getElementById("searchInput").value.trim().toLowerCase();
   container.innerHTML = "";
-
-  const filtered = catalog.filter(item =>
-    item.name.toLowerCase().includes(search)
-  );
-
-  if (filtered.length === 0) {
-    container.innerHTML = `
-      <div class="empty">
-        ${catalog.length === 0
-          ? "Your cigarette list is empty. Add a cigarette above."
-          : "No cigarettes match your search."}
-      </div>
-    `;
+  const items = catalog.filter(item => item.name.toLowerCase().includes(query));
+  if (!items.length) {
+    container.innerHTML = `<div class="empty">${
+      catalog.length ? "No cigarettes match your search." :
+      "Your list is empty. Add a cigarette above."
+    }</div>`;
     return;
   }
-
-  filtered.forEach(item => {
+  items.forEach(item => {
     const row = document.createElement("div");
     row.className = "item";
-
     const details = document.createElement("div");
-
     const name = document.createElement("div");
     name.className = "item-name";
     name.textContent = item.name;
+    const sub = document.createElement("div");
+    sub.className = "item-sub";
+    sub.textContent = item.quantity > 0 ? "Needed: " + item.quantity : "No quantity entered";
+    details.append(name, sub);
 
-    const status = document.createElement("div");
-    status.className = "item-count";
-    status.textContent = item.quantity > 0
-      ? "Needed: " + item.quantity
-      : "No quantity entered";
-
-    details.appendChild(name);
-    details.appendChild(status);
-
-    const quantityControl = document.createElement("div");
-    quantityControl.className = "quantity-control";
-
+    const control = document.createElement("div");
+    control.className = "quantity-control";
     const minus = document.createElement("button");
     minus.className = "secondary";
     minus.textContent = "−";
-    minus.setAttribute("aria-label", "Decrease quantity");
-    minus.addEventListener("click", () => {
-      changeQuantity(item.id, Math.max(0, item.quantity - 1));
-    });
+    minus.setAttribute("aria-label","Decrease quantity");
+    minus.addEventListener("click", () => changeQuantity(item.id, Math.max(0,item.quantity-1)));
 
-    const quantityInput = document.createElement("input");
-    quantityInput.className = "quantity-input";
-    quantityInput.type = "number";
-    quantityInput.min = "0";
-    quantityInput.step = "1";
-    quantityInput.inputMode = "numeric";
-    quantityInput.value = item.quantity;
-    quantityInput.setAttribute("aria-label", item.name + " quantity");
-
-    quantityInput.addEventListener("change", () => {
-      const value = Number(quantityInput.value);
-
+    const input = document.createElement("input");
+    input.className = "quantity-input";
+    input.type = "number";
+    input.min = "0";
+    input.step = "1";
+    input.inputMode = "numeric";
+    input.value = item.quantity;
+    input.setAttribute("aria-label",item.name + " quantity");
+    input.addEventListener("change", () => {
+      const value = Number(input.value);
       if (!Number.isFinite(value) || value < 0) {
-        quantityInput.value = item.quantity;
-        return;
+        input.value = item.quantity;
+      } else {
+        changeQuantity(item.id, Math.floor(value));
       }
-
-      changeQuantity(item.id, Math.floor(value));
     });
 
     const plus = document.createElement("button");
     plus.className = "secondary";
     plus.textContent = "+";
-    plus.setAttribute("aria-label", "Increase quantity");
-    plus.addEventListener("click", () => {
-      changeQuantity(item.id, item.quantity + 1);
-    });
+    plus.setAttribute("aria-label","Increase quantity");
+    plus.addEventListener("click", () => changeQuantity(item.id,item.quantity+1));
+    control.append(minus,input,plus);
 
-    quantityControl.appendChild(minus);
-    quantityControl.appendChild(quantityInput);
-    quantityControl.appendChild(plus);
+    const del = document.createElement("button");
+    del.className = "danger delete-button";
+    del.textContent = "Delete";
+    del.addEventListener("click", () => deleteCigarette(item.id));
 
-    const deleteButton = document.createElement("button");
-    deleteButton.className = "danger delete-button";
-    deleteButton.textContent = "Delete";
-    deleteButton.addEventListener("click", () => {
-      deleteCigarette(item.id);
-    });
-
-    row.appendChild(details);
-    row.appendChild(quantityControl);
-    row.appendChild(deleteButton);
-
+    row.append(details,control,del);
     container.appendChild(row);
   });
 }
-
-function renderPickupList() {
+function renderPickup() {
   const container = document.getElementById("pickupList");
   const progress = document.getElementById("progressText");
-
+  const badge = document.getElementById("remainingBadge");
   container.innerHTML = "";
 
   const needed = catalog.filter(item => item.quantity > 0);
-  const remaining = needed.filter(item => !isPicked(item.id));
+  const remaining = needed.filter(item => !picked.includes(item.id));
+  const collected = needed.length - remaining.length;
 
-  if (remaining.length === 0) {
-    container.innerHTML = `
-      <div class="empty">
-        ${needed.length === 0
-          ? "No cigarettes to pick up yet. Enter quantities in Chart 1."
-          : "🎉 All cigarettes have been picked up!"}
-      </div>
-    `;
+  badge.textContent = remaining.length ? "(" + remaining.length + ")" : "";
+
+  if (!remaining.length) {
+    container.innerHTML = `<div class="empty">${
+      needed.length ? "🎉 All cigarettes have been picked up!" :
+      "No cigarettes to pick up yet. Enter quantities in the Quantities tab."
+    }</div>`;
   } else {
     remaining.forEach(item => {
       const row = document.createElement("div");
       row.className = "pickup-item";
-
       const info = document.createElement("div");
       info.className = "pickup-info";
-
       const name = document.createElement("div");
       name.className = "pickup-name";
       name.textContent = item.name;
-
-      const quantity = document.createElement("div");
-      quantity.className = "pickup-quantity";
-      quantity.textContent = "Quantity to collect: " + item.quantity;
-
-      info.appendChild(name);
-      info.appendChild(quantity);
+      const qty = document.createElement("div");
+      qty.className = "pickup-qty";
+      qty.textContent = "Quantity to collect: " + item.quantity;
+      info.append(name,qty);
 
       const button = document.createElement("button");
       button.className = "picked-button";
       button.textContent = "✓ Picked Up";
-      button.addEventListener("click", () => {
-        markPicked(item.id);
-      });
-
-      row.appendChild(info);
-      row.appendChild(button);
+      button.addEventListener("click", () => markPicked(item.id));
+      row.append(info,button);
       container.appendChild(row);
     });
   }
-
-  const collected = needed.filter(item => isPicked(item.id)).length;
-
-  progress.textContent =
-    "Picked up: " + collected + " of " + needed.length +
-    " cigarette types.";
+  progress.textContent = "Picked up: " + collected + " of " + needed.length + " cigarette types.";
 }
-
 function renderAll() {
   renderCatalog();
-  renderPickupList();
+  renderPickup();
   renderSuggestions();
 }
 
-document.getElementById("addButton")
-  .addEventListener("click", addCigarette);
-
-document.getElementById("newName")
-  .addEventListener("input", renderSuggestions);
-
-document.getElementById("newName")
-  .addEventListener("keydown", event => {
-    if (event.key === "Enter") addCigarette();
-  });
-
-document.getElementById("searchInput")
-  .addEventListener("input", renderCatalog);
-
-document.getElementById("deleteAllButton")
-  .addEventListener("click", deleteAllCigarettes);
-
-document.getElementById("finishDayButton")
-  .addEventListener("click", () => {
-    catalog.forEach(item => {
-      item.quantity = 0;
-    });
-
-    picked = [];
-
-    saveAll();
-    renderAll();
-  });
+document.getElementById("addButton").addEventListener("click",addCigarette);
+document.getElementById("newName").addEventListener("input",renderSuggestions);
+document.getElementById("newName").addEventListener("keydown",event => {
+  if (event.key === "Enter") addCigarette();
+});
+document.getElementById("searchInput").addEventListener("input",renderCatalog);
+document.getElementById("deleteAllButton").addEventListener("click",deleteAllCigarettes);
+document.getElementById("finishDayButton").addEventListener("click",() => {
+  catalog.forEach(item => item.quantity = 0);
+  picked = [];
+  saveAll();
+  renderAll();
+  showTab("quantitiesView");
+});
 
 renderAll();
 </script>
